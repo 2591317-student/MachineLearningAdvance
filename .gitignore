@@ -4,6 +4,9 @@ __pycache__/
 venv/
 *.egg-info/
 
+# Node (chỉ dùng cho generator báo cáo Word _gen_baocao_rba.js)
+node_modules/
+
 # Dataset (quá lớn cho git, tải riêng theo README)
 rba_local_project/data/*.csv
 
