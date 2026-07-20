@@ -31,11 +31,9 @@ def triangular(x, a, b, c):
     return np.clip(y, 0, 1).astype(np.float32)
 
 
-def low_med_high(x, p20, p50, p80, xmin, xmax):
-    """xmin/xmax PHẢI là giá trị toàn cục đã fit trên tập Train (không tính lại
-    từ batch truyền vào) — nếu không, suy luận trên 1-2 dòng đơn lẻ sẽ khiến
-    xmin=xmax=chính giá trị của mẫu đó, làm méo mức độ thuộc Low/High."""
+def low_med_high(x, p20, p50, p80):
     x = np.asarray(x, dtype=np.float64)
+    xmin, xmax = float(np.min(x)), float(np.max(x))
     low = triangular(x, xmin, xmin, p50)
     med = triangular(x, p20, p50, p80)
     high = triangular(x, p50, xmax, xmax)
@@ -55,16 +53,12 @@ class MamdaniFuzzyRiskSystem:
     OUT_HIGH = triangular(Y_GRID, 0.5, 1.0, 1.0)
 
     def fit(self, df: pd.DataFrame):
-        """Fit ngưỡng percentile (20/50/80) VÀ min/max toàn cục CHỈ trên tập train."""
+        """Fit ngưỡng percentile (20/50/80) CHỈ trên tập train."""
         self.thresholds_ = {c: np.percentile(df[c].values, [20, 50, 80]) for c in self.CONTINUOUS_VARS}
-        self.minmax_ = {c: (float(df[c].min()), float(df[c].max())) for c in self.CONTINUOUS_VARS}
         return self
 
     def _fuzzify(self, df):
-        return {
-            col: low_med_high(df[col].values, *self.thresholds_[col], *self.minmax_[col])
-            for col in self.CONTINUOUS_VARS
-        }
+        return {col: low_med_high(df[col].values, *self.thresholds_[col]) for col in self.CONTINUOUS_VARS}
 
     def _rule_base(self, mem, df):
         """8 luật IF-THEN dạng Mamdani (hệ quả là tập mờ Low/Med/High risk)."""
