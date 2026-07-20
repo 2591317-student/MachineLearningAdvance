@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+*.egg-info/
+
+# Dataset (quá lớn cho git, tải riêng theo README)
+rba_local_project/data/*.csv
+
+# IDE
+.idea/
+
+# Backup archive (trùng nội dung với rba_local_project/)
+rba_local_project.7z
+
+# OS
+Thumbs.db
+.DS_Store

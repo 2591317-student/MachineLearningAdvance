@@ -1,0 +1,10 @@
+R1: new_country AND new_asn AND gap_high -> High  (firing=0.052)
+R2: success_rate_low -> High  (firing=0.629)
+R3: num_changes_high -> High  (firing=0.600)
+R4: asn_rarity_high -> High  (firing=0.943)
+R5: NOT new_country AND NOT new_asn AND changes_low AND success_high -> Low  (firing=0.000)
+R6: gap_low AND country_rarity_low -> Low  (firing=0.000)
+R7: changes_med OR gap_med -> Medium  (firing=0.000)
+R8: success_med AND (NOT new_country OR NOT new_asn) -> Medium  (firing=0.000)
+
+Centroid risk score = 0.8391
