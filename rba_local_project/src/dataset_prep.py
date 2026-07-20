@@ -59,6 +59,7 @@ def prepare_splits(df: pd.DataFrame):
         "scaler": scaler,
         "ohe": ohe,
         "fis_thresholds": fis.thresholds_,
+        "fis_minmax": fis.minmax_,
         "cat_cols": cat_cols,
         "input_columns": list(X_train.columns),
         "input_dim": X_train.shape[1],
