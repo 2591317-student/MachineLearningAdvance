@@ -48,6 +48,7 @@ def predict_risk(raw_rows: pd.DataFrame, model, pipeline, threshold: float = 0.5
     'attack_probability' và 'predicted_label'."""
     fis = MamdaniFuzzyRiskSystem()
     fis.thresholds_ = pipeline["fis_thresholds"]
+    fis.minmax_ = pipeline["fis_minmax"]
     fz = fis.transform(raw_rows)
 
     cat = pd.DataFrame(
