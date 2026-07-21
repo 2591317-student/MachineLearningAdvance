@@ -8,7 +8,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 from config import TARGET_COLUMN, RANDOM_STATE, TEST_SIZE, VAL_TEST_SPLIT
-from features import FEATURE_COLUMNS_NUMERIC, FEATURE_COLUMNS_CATEGORICAL
+from features import (FEATURE_COLUMNS_NUMERIC, FEATURE_COLUMNS_CATEGORICAL,
+                      fit_global_stats, apply_global_stats)
 from fuzzy_mamdani import MamdaniFuzzyRiskSystem
 
 
@@ -27,6 +28,13 @@ def prepare_splits(df: pd.DataFrame):
     )
 
     df_train, df_val, df_test = df.iloc[idx_train], df.iloc[idx_val], df.iloc[idx_test]
+
+    # ---- Thống kê toàn cục (median RTT, độ hiếm Country/ASN): fit CHỈ trên train ----
+    #      (tránh leakage: trước đây các thống kê này tính trên toàn bộ df).
+    global_stats = fit_global_stats(df_train)
+    df_train = apply_global_stats(df_train, global_stats)
+    df_val = apply_global_stats(df_val, global_stats)
+    df_test = apply_global_stats(df_test, global_stats)
 
     # ---- Mamdani FIS: fit CHỈ trên train ----
     fis = MamdaniFuzzyRiskSystem().fit(df_train)
@@ -58,6 +66,7 @@ def prepare_splits(df: pd.DataFrame):
     pipeline = {
         "scaler": scaler,
         "ohe": ohe,
+        "global_stats": global_stats,
         "fis_thresholds": fis.thresholds_,
         "fis_minmax": fis.minmax_,
         "cat_cols": cat_cols,

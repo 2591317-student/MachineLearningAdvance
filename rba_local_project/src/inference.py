@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config
 from model import MLPClassifier, to_tensor
 from fuzzy_mamdani import MamdaniFuzzyRiskSystem
-from features import FEATURE_COLUMNS_NUMERIC, FEATURE_COLUMNS_CATEGORICAL
+from features import FEATURE_COLUMNS_NUMERIC, FEATURE_COLUMNS_CATEGORICAL, apply_global_stats
 
 
 def load_pipeline_and_model():
@@ -46,6 +46,9 @@ def predict_risk(raw_rows: pd.DataFrame, model, pipeline, threshold: float = 0.5
     """raw_rows: DataFrame chứa các cột đặc trưng thô (đã qua engineer_features,
     TRƯỚC khi scale/one-hot/fuzzy). Trả về DataFrame gốc kèm cột
     'attack_probability' và 'predicted_label'."""
+    # Áp thống kê toàn cục đã fit trên train (thêm rtt_filled, country_rarity, asn_rarity)
+    raw_rows = apply_global_stats(raw_rows, pipeline["global_stats"])
+
     fis = MamdaniFuzzyRiskSystem()
     fis.thresholds_ = pipeline["fis_thresholds"]
     fis.minmax_ = pipeline["fis_minmax"]
@@ -93,8 +96,8 @@ def _demo():
     scenario_high_risk["num_changes"] = 6
     scenario_high_risk["time_since_last_login_h"] = 5000
     scenario_high_risk["user_success_rate_so_far"] = 0.2
-    scenario_high_risk["country_rarity"] = 0.99
-    scenario_high_risk["asn_rarity"] = 0.99
+    scenario_high_risk["Country"] = "ZZ_UNSEEN_COUNTRY"  # lạ -> country_rarity cao
+    scenario_high_risk["ASN"] = "AS_UNSEEN"              # lạ -> asn_rarity cao
 
     scenario_low_risk = template.copy()
     for col in ["is_new_country", "is_new_city", "is_new_asn", "is_new_device",
@@ -103,8 +106,7 @@ def _demo():
     scenario_low_risk["num_changes"] = 0
     scenario_low_risk["time_since_last_login_h"] = 24
     scenario_low_risk["user_success_rate_so_far"] = 1.0
-    scenario_low_risk["country_rarity"] = 0.05
-    scenario_low_risk["asn_rarity"] = 0.05
+    # Country/ASN giữ theo template (giá trị phổ biến) -> rarity thấp tự nhiên
 
     scenarios = pd.concat([scenario_high_risk, scenario_low_risk])
     scenarios.index = ["Kịch bản: RỦI RO CAO (giả định)", "Kịch bản: RỦI RO THẤP (giả định)"]

@@ -221,6 +221,18 @@ body.push(table([3400, 5960], ["Thành phần", "Giá trị"], [
 body.push(h2("5.4. Ngưỡng phân loại"));
 body.push(p("Ngưỡng cứng 0.5 khi sinh metrics.json (evaluate mặc định threshold=0.5). Hàm visualize.plot_threshold_curve có tính & in ngưỡng F1 tốt nhất nhưng chỉ để tham khảo, không dùng cho kết quả chính."));
 
+body.push(h2("5.5. Thuật toán huấn luyện: Forward & Backpropagation"));
+body.push(p("MLP được huấn luyện theo đúng khung 4 bước của một nơ-ron/mạng nơ-ron (giống Perceptron), lặp lại qua nhiều epoch cho đến khi hội tụ. Bản chất là gradient descent trên hàm mất mát, với đạo hàm tính bằng lan truyền ngược (backpropagation)."));
+body.push(p([{ text: "B1 — Khởi tạo: ", bold: true }, { text: "trọng số W và bias b của từng tầng (PyTorch khởi tạo mặc định), chọn learning rate và các siêu tham số." }]));
+body.push(p([{ text: "B2 — Forward Propagation (lan truyền tiến): ", bold: true }, { text: "dữ liệu đi xuôi qua từng tầng để ra dự đoán." }]));
+body.push(code("Mỗi tầng ẩn:  z = W·x + b  →  a = ReLU(z)  →  BatchNorm(a)  →  Dropout\nTầng ra:      logit = W_out·a + b_out        (chưa qua activation)\nDự đoán:      ŷ = sigmoid(logit) ∈ (0,1)      (xác suất tấn công)"));
+body.push(p([{ text: "B3 — Tính Loss & Gradient (Backpropagation / lan truyền ngược): ", bold: true }, { text: "so ŷ với nhãn thật để tính Loss (BCE có pos_weight), rồi tính đạo hàm của Loss theo mọi W, b bằng quy tắc chuỗi (chain rule) — sai số được truyền NGƯỢC từ tầng ra về các tầng trước." }]));
+body.push(code("Loss (BCE) = −[ y·ln(ŷ) + (1−y)·ln(1−ŷ) ]  × pos_weight cho lớp dương\n∂L/∂logit = ŷ − y                         (sigmoid + BCE triệt tiêu đẹp)\n∂L/∂W(tầng) = lan truyền ngược qua từng tầng bằng chain rule"));
+body.push(p([{ text: "B4 — Cập nhật tham số (Gradient Descent, tối ưu bằng Adam): ", bold: true }, { text: "dịch trọng số ngược hướng gradient để giảm Loss." }]));
+body.push(code("W = W − learning_rate · ∂L/∂W\nb = b − learning_rate · ∂L/∂b\n(Adam: có thêm quán tính & điều chỉnh LR theo từng tham số)"));
+body.push(p("Lặp lại B2 → B3 → B4 cho từng mini-batch, hết một lượt dữ liệu là 1 epoch. Sau mỗi epoch, đánh giá trên tập validation (AUPRC/AUROC) để chọn model tốt nhất và early stopping."));
+body.push(note("Tương ứng thuật ngữ: B2 = giai đoạn Propagation (lan truyền tiến); B3 + B4 = giai đoạn Backpropagation (tính gradient rồi cập nhật ngược). Đây chính là nguyên lý Perceptron mở rộng cho mạng nhiều tầng — khác biệt duy nhất là backprop dùng chain rule truyền qua nhiều tầng liên tiếp."));
+
 // 6. Kết quả
 body.push(new Paragraph({ children: [new PageBreak()] }));
 body.push(h1("6. Kết quả (tập Test, 75.000 dòng)"));

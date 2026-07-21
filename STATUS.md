@@ -67,37 +67,42 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 | Kết hợp MLP + logic (fuzzy) | ✅ Đạt | MLP + Mamdani Fuzzy, hợp nhất ở tầng đặc trưng |
 | Làm xong model | ✅ Đạt | Train xong, có metrics, inference chạy được |
 | Minh họa thuật toán | ✅ Đạt | 4 sơ đồ + biểu đồ kết quả |
-| Giải thích thuật toán | ⚠️ Gần đủ | Mamdani rất kỹ; **phần huấn luyện MLP (forward/backprop) chưa giải thích sâu** |
+| Giải thích thuật toán | ✅ Đạt | Mamdani (4 bước) + MLP (Forward/Backprop, mục 5.5) đều đã giải thích |
 
 ---
 
-## 4. CÒN CẦN LÀM THÊM (ưu tiên từ cao xuống thấp)
+## 4. TRẠNG THÁI CÁC VIỆC (cập nhật 2026-07-20)
 
-### 🔴 (1) Sửa lỗi rò rỉ dữ liệu (leakage) — QUAN TRỌNG NHẤT
-- **Vấn đề:** trong `features.py`, `median RTT` và `value_counts` (country/asn
-  rarity) tính trên **TOÀN BỘ df** (gồm cả val/test) vì `engineer_features`
-  chạy TRƯỚC `prepare_splits`.
-- **Rủi ro:** giám khảo có thể hỏi; slide 16 mới nhắc lỗi `xmin/xmax` đã sửa,
-  chưa nhắc lỗi này.
-- **Cần làm:** tính median/rarity **chỉ trên tập train** rồi transform cho
-  val/test → train lại → cập nhật `metrics.json` + biểu đồ + báo cáo.
-  *(HOẶC: giữ nguyên nhưng chuẩn bị câu trả lời "leakage nhẹ ở thống kê toàn cục".)*
+### ✅ (1) Sửa lỗi rò rỉ dữ liệu (leakage) — ĐÃ SỬA CODE + KIỂM THỬ
+- **Đã làm:** chuyển `median RTT` và độ hiếm Country/ASN sang fit **CHỈ trên train**
+  — thêm `fit_global_stats()` / `apply_global_stats()` trong `features.py`; gọi
+  trong `dataset_prep.prepare_splits`; lưu `global_stats` vào pipeline; áp lại
+  trong `inference.predict_risk`.
+- **Đã kiểm thử:** chạy toàn bộ pipeline bằng dữ liệu giả (features → split →
+  train → inference) — PASS; giá trị Country/ASN lạ → rarity = 1 (đúng kỳ vọng).
+- **⚠️ CÒN LẠI (cần dataset):** model/pipeline/metrics trong `outputs/` vẫn là
+  của **code CŨ** (trước khi sửa) và **không tương thích** code mới (pipeline.pkl
+  cũ thiếu khóa `global_stats`). Phải **chạy lại `python train.py`** với file
+  `data/rba_sample_500k.csv` để tạo lại model + cập nhật `metrics.json` + biểu đồ.
+  Số liệu có thể lệch nhẹ so với bản cũ (leakage vốn nhẹ).
+  *(Cũng nên train lại vì pipeline cũ pickled bằng scikit-learn 1.7.2, máy hiện dùng 1.8.0.)*
 
-### 🟡 (2) Bổ sung phần giải thích thuật toán huấn luyện MLP
-- **Vấn đề:** báo cáo/slide mới mô tả *kiến trúc + chiến lược train*, chưa giải
-  thích cơ chế học (Forward Propagation → Loss → Backpropagation → Gradient
-  Descent, các bước B1–B4).
-- **Cần làm:** thêm 1 mục vào báo cáo, tận dụng nội dung Perceptron đã có ở
-  `BT-2591317-Buoi9/`.
+### ✅ (2) Giải thích thuật toán huấn luyện MLP — ĐÃ THÊM VÀO BÁO CÁO
+- Đã thêm mục **5.5 "Thuật toán huấn luyện: Forward & Backpropagation"** vào
+  `BaoCao_TongHop_RBA.docx` (B1 khởi tạo → B2 forward → B3 loss + backprop →
+  B4 cập nhật, kèm công thức), nối với nguyên lý Perceptron ở Buổi 9.
 
-### 🟢 (3) Xác nhận miền dữ liệu với thầy/cô
+### 🟢 (3) Xác nhận miền dữ liệu với thầy/cô — CẦN BẠN LÀM
 - Đề nêu ví dụ "phân loại văn bản, hình ảnh"; dự án dùng **dữ liệu bảng** (log
-  đăng nhập). Dấu "..." trong đề cho phép bài toán khác → **khả năng cao OK**,
-  nhưng nên xác nhận nếu đề yêu cầu chặt về text/image.
+  đăng nhập). Dấu "..." cho phép bài toán khác → khả năng cao OK, nhưng nên xác nhận.
 
-### ⚪ (tùy chọn) Chuẩn bị demo
-- `python inference.py` chạy sẵn 2 kịch bản (rủi ro cao/thấp) → có thể demo
-  trực tiếp lúc thuyết trình.
+### ⚪ (4) Demo — CHỜ TRAIN LẠI
+- `python inference.py` (2 kịch bản rủi ro cao/thấp) sẽ chạy được **sau khi
+  train lại** (cần model + pipeline mới có `global_stats`). Đã cập nhật demo:
+  kịch bản rủi ro cao dùng Country/ASN lạ để tạo độ hiếm cao đúng cách.
+
+> **Việc DUY NHẤT còn phải làm khi có dataset:** đặt `rba_sample_500k.csv` vào
+> `data/` rồi chạy `cd src && python train.py`. Mọi thứ khác đã xong.
 
 ---
 

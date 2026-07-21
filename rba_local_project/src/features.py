@@ -39,14 +39,14 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     df["is_odd_hour"] = ((df["hour_of_day"] < 6) | (df["hour_of_day"] > 22)).astype(int)
 
     # ---- RTT ----
+    # rtt_missing là row-local (an toàn). rtt_filled cần median toàn cục nên
+    # được tính ở fit_global_stats/apply_global_stats — CHỈ trên train, chống leakage.
     df["rtt_missing"] = df["Round-Trip Time [ms]"].isna().astype(int)
-    df["rtt_filled"] = df["Round-Trip Time [ms]"].fillna(df["Round-Trip Time [ms]"].median())
 
-    # ---- Độ hiếm toàn cục Country/ASN ----
-    country_freq = df["Country"].value_counts(normalize=True)
-    asn_freq = df["ASN"].value_counts(normalize=True)
-    df["country_rarity"] = 1 - df["Country"].map(country_freq).fillna(0)
-    df["asn_rarity"] = 1 - df["ASN"].map(asn_freq).fillna(0)
+    # ---- Độ hiếm Country/ASN ----
+    # value_counts là thống kê toàn cục; nếu tính trên cả df sẽ rò rỉ thông tin
+    # val/test. Vì vậy country_rarity, asn_rarity (và rtt_filled) được thêm ở
+    # apply_global_stats() SAU khi đã fit trên tập train (xem dataset_prep.py).
 
     # ---- Hành vi lịch sử theo user ----
     g = df.groupby("User ID", sort=False)
@@ -79,9 +79,31 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def fit_global_stats(df_train: pd.DataFrame) -> dict:
+    """Học thống kê toàn cục CHỈ trên tập train (chống data leakage):
+    median RTT và tần suất xuất hiện của Country/ASN."""
+    return {
+        "rtt_median": float(df_train["Round-Trip Time [ms]"].median()),
+        "country_freq": df_train["Country"].value_counts(normalize=True),
+        "asn_freq": df_train["ASN"].value_counts(normalize=True),
+    }
+
+
+def apply_global_stats(df: pd.DataFrame, stats: dict) -> pd.DataFrame:
+    """Áp thống kê đã fit (trên train) để tạo rtt_filled, country_rarity,
+    asn_rarity cho một tập bất kỳ (train/val/test hoặc dữ liệu inference).
+    Giá trị Country/ASN lạ (không có trong train) → rarity = 1 (rất hiếm)."""
+    df = df.copy()
+    df["rtt_filled"] = df["Round-Trip Time [ms]"].fillna(stats["rtt_median"])
+    df["country_rarity"] = 1 - df["Country"].map(stats["country_freq"]).fillna(0)
+    df["asn_rarity"] = 1 - df["ASN"].map(stats["asn_freq"]).fillna(0)
+    return df
+
+
 if __name__ == "__main__":
     from config import DATA_PATH
     df = load_raw(DATA_PATH)
     df = engineer_features(df)
+    df = apply_global_stats(df, fit_global_stats(df))  # demo: fit trên chính df
     print(df[FEATURE_COLUMNS_NUMERIC + FEATURE_COLUMNS_CATEGORICAL + [TARGET_COLUMN]].head())
     print("Shape:", df.shape)
