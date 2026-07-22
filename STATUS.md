@@ -107,10 +107,11 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
   liệu mới nhất + thêm mục 8.2 "Lỗi đã phát hiện và khắc phục" (gộp cả 2 lỗi:
   xmin/xmax và leakage thống kê toàn cục).
 
-> **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, và báo
-> cáo đều đã đồng bộ với nhau. Slide `SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx` vẫn
-> còn số liệu cũ (84.4-84.5%) — chưa cập nhật theo lần train mới nhất này, sai
-> lệch không đáng kể nhưng nên lưu ý nếu cần khớp tuyệt đối với báo cáo.
+> **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, báo cáo
+> VÀ slide đều đã đồng bộ với nhau. Slide `SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx`
+> đã được cập nhật đúng số liệu retrain mới nhất (AUROC 87.8%, AUPRC 21.8%,
+> Accuracy 79.3%, Precision 11.3%, Recall 84.3%, F1 20.0%) — đã kiểm tra không
+> còn số cũ nào sót lại.
 
 ---
 
@@ -122,8 +123,9 @@ MachineLearningAdvance/
 ├── TongHop_DuAn_RBA.md          # tổng quan toàn dự án (mới)
 ├── LuatMo_SoDo_RBA.md           # chi tiết hệ mờ + sơ đồ (mới)
 ├── STATUS.md                    # file này
-├── _gen_baocao_rba.js           # generator báo cáo Word (báo cáo chính thức)
 ├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx        # slide thuyết trình (18 trang)
 ├── BaoCao_Assets/               # 4 hình minh họa
-└── rba_local_project/           # source + model + outputs
+├── rba_local_project/           # source + model + outputs
+└── _gen_tools/                  # (GITIGNORE) công cụ sinh báo cáo: _gen_baocao_rba.js,
+                                 #  package.json, node_modules — KHÔNG phải nội dung
 ```
