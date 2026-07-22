@@ -7,8 +7,11 @@ toán phát hiện đăng nhập rủi ro (Risk-Based Authentication — RBA).
 
 ```
 CuoiKy/
-├── BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx      # Báo cáo đầy đủ (giải thích thuật toán, công thức, kết quả)
+├── BaoCao_TongHop_RBA.docx               # Báo cáo chính thức (giải thích thuật toán, công thức, kết quả, hạn chế)
 ├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx   # Slide thuyết trình (18 trang)
+├── _gen_baocao_rba.js                    # Script sinh lại báo cáo Word (node _gen_baocao_rba.js)
+├── STATUS.md                             # Nhật ký tiến độ / trạng thái dự án
+├── TongHop_DuAn_RBA.md, LuatMo_SoDo_RBA.md  # Ghi chú phân tích chi tiết (nguồn cho báo cáo)
 ├── BaoCao_Assets/                        # Hình minh hoạ thuật toán dùng trong báo cáo/slide
 │   ├── hinh1_kien_truc_tong_the.png
 │   ├── hinh2_membership_functions.png
@@ -48,9 +51,10 @@ không cần dataset đầy đủ hay train lại.
 
 | Metric | Giá trị |
 |---|---|
-| AUROC | 0.877 |
-| AUPRC | 0.219 |
-| Recall | 84.5% |
-| Precision | 11.2% |
+| AUROC | 0.878 |
+| AUPRC | 0.218 |
+| Recall | 84.3% |
+| Precision | 11.3% |
 
-Chi tiết đầy đủ (kiến trúc, công thức, phân tích, hạn chế) xem trong file báo cáo `.docx`.
+Chi tiết đầy đủ (kiến trúc, công thức, phân tích, hạn chế) xem trong
+[`BaoCao_TongHop_RBA.docx`](BaoCao_TongHop_RBA.docx).

@@ -73,19 +73,18 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 ## 4. TRẠNG THÁI CÁC VIỆC (cập nhật 2026-07-20)
 
-### ✅ (1) Sửa lỗi rò rỉ dữ liệu (leakage) — ĐÃ SỬA CODE + KIỂM THỬ
+### ✅ (1) Sửa lỗi rò rỉ dữ liệu (leakage) — ĐÃ SỬA CODE + ĐÃ TRAIN LẠI + ĐÃ KIỂM THỬ
 - **Đã làm:** chuyển `median RTT` và độ hiếm Country/ASN sang fit **CHỈ trên train**
   — thêm `fit_global_stats()` / `apply_global_stats()` trong `features.py`; gọi
   trong `dataset_prep.prepare_splits`; lưu `global_stats` vào pipeline; áp lại
   trong `inference.predict_risk`.
-- **Đã kiểm thử:** chạy toàn bộ pipeline bằng dữ liệu giả (features → split →
-  train → inference) — PASS; giá trị Country/ASN lạ → rarity = 1 (đúng kỳ vọng).
-- **⚠️ CÒN LẠI (cần dataset):** model/pipeline/metrics trong `outputs/` vẫn là
-  của **code CŨ** (trước khi sửa) và **không tương thích** code mới (pipeline.pkl
-  cũ thiếu khóa `global_stats`). Phải **chạy lại `python train.py`** với file
-  `data/rba_sample_500k.csv` để tạo lại model + cập nhật `metrics.json` + biểu đồ.
-  Số liệu có thể lệch nhẹ so với bản cũ (leakage vốn nhẹ).
-  *(Cũng nên train lại vì pipeline cũ pickled bằng scikit-learn 1.7.2, máy hiện dùng 1.8.0.)*
+- **Đã train lại** với dataset thật (`data/rba_sample_500k.csv`, máy có sklearn
+  1.7.2): `outputs/` (model, pipeline, metrics.json, 5 biểu đồ) giờ khớp đúng
+  code mới. Metrics gần như không đổi (AUROC 0.878, AUPRC 0.218, Recall 84.3%,
+  Precision 11.3%) — leakage vốn nhẹ ở quy mô batch lớn, nhưng pipeline giờ
+  đúng nguyên tắc.
+- **Đã kiểm thử:** `python inference.py` chạy được với pipeline mới (có khóa
+  `global_stats`), 2 kịch bản rủi ro cao/thấp cho kết quả tách biệt hợp lý.
 
 ### ✅ (2) Giải thích thuật toán huấn luyện MLP — ĐÃ THÊM VÀO BÁO CÁO
 - Đã thêm mục **5.5 "Thuật toán huấn luyện: Forward & Backpropagation"** vào
@@ -96,13 +95,22 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 - Đề nêu ví dụ "phân loại văn bản, hình ảnh"; dự án dùng **dữ liệu bảng** (log
   đăng nhập). Dấu "..." cho phép bài toán khác → khả năng cao OK, nhưng nên xác nhận.
 
-### ⚪ (4) Demo — CHỜ TRAIN LẠI
-- `python inference.py` (2 kịch bản rủi ro cao/thấp) sẽ chạy được **sau khi
-  train lại** (cần model + pipeline mới có `global_stats`). Đã cập nhật demo:
-  kịch bản rủi ro cao dùng Country/ASN lạ để tạo độ hiếm cao đúng cách.
+### ✅ (4) Demo — ĐÃ CHẠY, PASS
+- `python inference.py` chạy được với model/pipeline mới (có `global_stats`).
+  Kịch bản rủi ro cao dùng Country/ASN lạ để tạo độ hiếm cao đúng cách.
 
-> **Việc DUY NHẤT còn phải làm khi có dataset:** đặt `rba_sample_500k.csv` vào
-> `data/` rồi chạy `cd src && python train.py`. Mọi thứ khác đã xong.
+### ✅ (5) Gộp 2 báo cáo trùng lặp — ĐÃ XỬ LÝ
+- Repo từng có 2 file báo cáo Word nội dung trùng nhau
+  (`BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx` bản gốc và `BaoCao_TongHop_RBA.docx` bản
+  tổng hợp mới hơn, có thêm mục Forward/Backprop). Đã chọn **giữ
+  `BaoCao_TongHop_RBA.docx` làm báo cáo chính thức**, xóa file cũ, cập nhật số
+  liệu mới nhất + thêm mục 8.2 "Lỗi đã phát hiện và khắc phục" (gộp cả 2 lỗi:
+  xmin/xmax và leakage thống kê toàn cục).
+
+> **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, và báo
+> cáo đều đã đồng bộ với nhau. Slide `SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx` vẫn
+> còn số liệu cũ (84.4-84.5%) — chưa cập nhật theo lần train mới nhất này, sai
+> lệch không đáng kể nhưng nên lưu ý nếu cần khớp tuyệt đối với báo cáo.
 
 ---
 
@@ -114,8 +122,8 @@ MachineLearningAdvance/
 ├── TongHop_DuAn_RBA.md          # tổng quan toàn dự án (mới)
 ├── LuatMo_SoDo_RBA.md           # chi tiết hệ mờ + sơ đồ (mới)
 ├── STATUS.md                    # file này
-├── _gen_baocao_rba.js           # generator báo cáo Word
-├── BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx / .pptx   # báo cáo & slide gốc
+├── _gen_baocao_rba.js           # generator báo cáo Word (báo cáo chính thức)
+├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx        # slide thuyết trình (18 trang)
 ├── BaoCao_Assets/               # 4 hình minh họa
 └── rba_local_project/           # source + model + outputs
 ```

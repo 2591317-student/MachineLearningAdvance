@@ -6,10 +6,10 @@ const {
   Table, TableRow, TableCell, WidthType, BorderStyle, ShadingType,
   ImageRun, PageBreak, TableOfContents, LevelFormat, PositionalTab,
   PositionalTabAlignment, PositionalTabLeader
-} = require("docx");
+} = require("C:/Users/Nhanlp/AppData/Roaming/npm/node_modules/docx");
 
-const REPO = "D:/01.DuAn/MachineLearningAdvance/MachineLearningAdvance";
-const OUT = "D:/01.DuAn/MachineLearningAdvance/MachineLearningAdvance/BaoCao_TongHop_RBA.docx";
+const REPO = "D:/06.BT/MachineLearningAdvance/CuoiKy";
+const OUT = "D:/06.BT/MachineLearningAdvance/CuoiKy/BaoCao_TongHop_RBA.docx";
 const FONT = "Times New Roman";
 const NAVY = "1F3864", BLUE = "2E75B6", GREY = "595959", RED = "C00000", GREEN = "2E7D32";
 const TW = 9360; // table width (DXA)
@@ -237,21 +237,21 @@ body.push(note("Tương ứng thuật ngữ: B2 = giai đoạn Propagation (lan 
 body.push(new Paragraph({ children: [new PageBreak()] }));
 body.push(h1("6. Kết quả (tập Test, 75.000 dòng)"));
 body.push(table([1800, 1800, 5760], ["Chỉ số", "Giá trị", "Ý nghĩa"], [
-  ["AUROC", "0.8774", "Khả năng phân biệt tổng quát 2 lớp — khá tốt"],
-  ["AUPRC", "0.2188", "Đáng tin hơn AUROC khi dữ liệu mất cân bằng (~3% dương)"],
-  ["Accuracy", "0.7896", "Dễ gây hiểu nhầm với dữ liệu lệch lớp"],
-  ["Precision", "0.1117", "Trong các cảnh báo tấn công, ~11% đúng thật"],
-  ["Recall", "0.8449", "Trong các tấn công thật, bắt được ~84%"],
-  ["F1", "0.1974", "Điều hòa Precision và Recall"],
+  ["AUROC", "0.8781", "Khả năng phân biệt tổng quát 2 lớp — khá tốt"],
+  ["AUPRC", "0.2180", "Đáng tin hơn AUROC khi dữ liệu mất cân bằng (~3% dương)"],
+  ["Accuracy", "0.7933", "Dễ gây hiểu nhầm với dữ liệu lệch lớp"],
+  ["Precision", "0.1133", "Trong các cảnh báo tấn công, ~11% đúng thật"],
+  ["Recall", "0.8428", "Trong các tấn công thật, bắt được ~84%"],
+  ["F1", "0.1998", "Điều hòa Precision và Recall"],
 ]));
 body.push(...picture("rba_local_project/outputs/metrics_bar_chart.png", 560, 0.556, "Hình 5 — Các chỉ số đánh giá trên tập Test."));
 body.push(...picture("rba_local_project/outputs/roc_pr_curves.png", 620, 0.385, "Hình 6 — Đường ROC và Precision-Recall."));
 body.push(...picture("rba_local_project/outputs/confusion_matrix.png", 420, 0.909, "Hình 7 — Ma trận nhầm lẫn."));
 body.push(h2("6.1. Diễn giải trong bối cảnh RBA"));
-body.push(bullet([{ text: "Recall cao (84.5%) + Precision thấp (11.2%) là đánh đổi có chủ đích: ", bold: true }, { text: "bắt được phần lớn tấn công (tối quan trọng — bỏ sót là rủi ro nghiêm trọng), đổi lại nhiều báo động giả." }]));
+body.push(bullet([{ text: "Recall cao (84.3%) + Precision thấp (11.3%) là đánh đổi có chủ đích: ", bold: true }, { text: "bắt được phần lớn tấn công (tối quan trọng — bỏ sót là rủi ro nghiêm trọng), đổi lại nhiều báo động giả." }]));
 body.push(bullet("Trong RBA, hệ quả của báo động giả chỉ là yêu cầu người dùng xác thực thêm (OTP/2FA) — phiền nhưng không nguy hiểm."));
-body.push(bullet("AUPRC (0.219, so với baseline ngẫu nhiên ~0.03) mới phản ánh chất lượng thật, vì Accuracy/AUROC bị “thổi phồng” bởi lớp âm áp đảo."));
-body.push(note("Số liệu bổ sung (chỉ có trong báo cáo gốc): ở ngưỡng tối ưu F1 = 0.829, Precision tăng lên 27.8%, F1 = 0.327, đổi lại Recall giảm còn 39.8%."));
+body.push(bullet("AUPRC (0.218, so với baseline ngẫu nhiên ~0.03) mới phản ánh chất lượng thật, vì Accuracy/AUROC bị “thổi phồng” bởi lớp âm áp đảo."));
+body.push(note("Số liệu bổ sung: ở ngưỡng tối ưu F1 = 0.844, Precision tăng lên 28.9%, F1 = 0.324, đổi lại Recall giảm còn 37.0%."));
 
 // 7. Cấu trúc & cách chạy
 body.push(new Paragraph({ children: [new PageBreak()] }));
@@ -270,19 +270,22 @@ body.push(h2("8.1. Điểm mạnh"));
 body.push(bullet("Kiến trúc lai có tính giải thích: 8 luật Mamdani mã hóa tri thức chuyên gia minh bạch, hỗ trợ MLP."));
 body.push(bullet("Chống data leakage bài bản ở phần lớn pipeline (đặc trưng lịch sử dùng shift/cumsum; FIS/Scaler/OHE fit chỉ trên train; chia stratified có seed)."));
 body.push(bullet("Chọn nhãn/metric phù hợp mất cân bằng (Is Attack IP ~3%; chọn model theo AUPRC; xử lý mất cân bằng bằng pos_weight)."));
-body.push(bullet("Đã phát hiện & sửa lỗi thực: xmin/xmax batch-local trong hàm thuộc → đã lưu min/max toàn cục vào pipeline để inference đúng."));
-body.push(h2("8.2. Điểm yếu / rủi ro"));
-body.push(bullet("Precision thấp (11.2%) ở ngưỡng 0.5 — nhiều báo động giả; chưa tối ưu ngưỡng ở quyết định cuối."));
-body.push(bullet([{ text: "Rò rỉ thống kê toàn cục tinh vi (CHƯA sửa): ", bold: true }, { text: "median RTT và value_counts cho country/asn rarity tính trên TOÀN BỘ df (gồm cả val/test) vì engineer_features chạy trước prepare_splits. Nên tính chỉ trên train." }]));
+body.push(bullet("Đã phát hiện & sửa 2 lỗi thực trong mã nguồn (xem 8.2)."));
+body.push(h2("8.2. Lỗi đã phát hiện và khắc phục"));
+body.push(bullet([{ text: "xmin/xmax batch-local trong hàm thuộc mờ: ", bold: true }, { text: "low_med_high() từng tính lại xmin/xmax từ chính batch truyền vào transform() thay vì dùng giá trị toàn cục của train. Ổn định với batch lớn nhưng làm méo kết quả khi suy luận trên 1-2 dòng đơn lẻ. Đã sửa: fit() lưu thêm minmax_ toàn cục, inference gán lại từ pipeline thay vì tính lại." }]));
+body.push(bullet([{ text: "Rò rỉ thống kê toàn cục (RTT/Country/ASN rarity): ", bold: true }, { text: "trước đây median RTT và tần suất Country/ASN được tính trên TOÀN BỘ dữ liệu (gồm cả val/test) ngay trong engineer_features(), trước khi chia tập — một dạng leakage tinh vi. Đã sửa bằng fit_global_stats()/apply_global_stats() trong features.py: 2 thống kê này giờ fit CHỈ trên train, áp dụng nhất quán cho val/test và inference (lưu trong pipeline[\"global_stats\"])." }]));
+body.push(note("Cả 2 lỗi trên đều đã được kiểm thử lại: huấn luyện lại từ đầu, metrics gần như không đổi (đúng như dự đoán vì ảnh hưởng nhẹ ở quy mô batch lớn), và inference.py demo cho kết quả hợp lý, tách biệt rõ giữa 2 kịch bản rủi ro cao/thấp."));
+body.push(h2("8.3. Điểm yếu / rủi ro còn lại"));
+body.push(bullet("Precision thấp (11.3%) ở ngưỡng 0.5 — nhiều báo động giả; ngưỡng tối ưu F1 (0.844) cải thiện Precision lên 28.9% nhưng đánh đổi Recall giảm còn 37.0%."));
 body.push(bullet("8 luật fuzzy thiết kế thủ công theo trực giác, chưa tối ưu tự động."));
 body.push(bullet("requirements dùng “>=” (không ghim phiên bản chính xác) → có thể lệch hành vi giữa các phiên bản."));
-body.push(h2("8.3. Hướng phát triển"));
+body.push(h2("8.4. Hướng phát triển"));
 body.push(bullet("Thử Focal Loss / tinh chỉnh pos_weight để tăng Precision mà không giảm Recall quá nhiều."));
 body.push(bullet("Chọn ngưỡng theo ma trận chi phí thực tế (cân bằng bỏ sót tấn công vs làm phiền người dùng)."));
 body.push(bullet("Tối ưu/học tự động hệ mờ (ANFIS hoặc thuật toán tiến hóa) thay vì thiết kế luật thủ công."));
-body.push(bullet("Khắc phục leakage thống kê toàn cục; ghim phiên bản thư viện để tái lập."));
-body.push(h2("8.4. Kết luận"));
-body.push(p("Dự án xây dựng thành công hệ lai MLP + Mamdani Fuzzy trên ~500.000 lượt đăng nhập cho bài toán RBA. Hệ mờ mã hóa tri thức chuyên gia (8 luật) thành đặc trưng giải thích được, ghép cùng đặc trưng số/one-hot làm đầu vào MLP 3 tầng ẩn (128→64→32). Kết quả test (AUROC 0.877, AUPRC 0.219, Recall 84.5%, Precision 11.2% ở ngưỡng 0.5) cho thấy mô hình bắt được phần lớn tấn công — phù hợp mục tiêu bảo mật — dù tỉ lệ báo động giả còn cao, một đánh đổi chấp nhận được và có thể tinh chỉnh qua ngưỡng."));
+body.push(bullet("Ghim phiên bản thư viện chính xác (thay vì “>=”) để tái lập kết quả ổn định giữa các máy."));
+body.push(h2("8.5. Kết luận"));
+body.push(p("Dự án xây dựng thành công hệ lai MLP + Mamdani Fuzzy trên ~500.000 lượt đăng nhập cho bài toán RBA. Hệ mờ mã hóa tri thức chuyên gia (8 luật) thành đặc trưng giải thích được, ghép cùng đặc trưng số/one-hot làm đầu vào MLP 3 tầng ẩn (128→64→32). Kết quả test (AUROC 0.878, AUPRC 0.218, Recall 84.3%, Precision 11.3% ở ngưỡng 0.5) cho thấy mô hình bắt được phần lớn tấn công — phù hợp mục tiêu bảo mật — dù tỉ lệ báo động giả còn cao, một đánh đổi chấp nhận được và có thể tinh chỉnh qua ngưỡng. Quá trình rà soát mã nguồn còn phát hiện và khắc phục thành công 2 lỗi thực trong pipeline (mục 8.2), thể hiện giá trị của việc hiểu rõ thuật toán ở mức triển khai."));
 
 // ---------- document ----------
 const doc = new Document({
