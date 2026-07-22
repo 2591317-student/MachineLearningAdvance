@@ -89,8 +89,16 @@ body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120
   children: [new TextRun({ text: "Phát hiện đăng nhập rủi ro (RBA)", bold: true, font: FONT, size: 34, color: "000000" })] }));
 body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 400 },
   children: [new TextRun({ text: "Kết hợp MLP (Multi-Layer Perceptron) và hệ mờ Mamdani", font: FONT, size: 28, color: BLUE })] }));
-body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 80 },
+body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 500 },
   children: [new TextRun({ text: "Học Máy Nâng Cao — Tài liệu đọc hiểu & tổng hợp mã nguồn", italics: true, font: FONT, size: 26, color: GREY })] }));
+body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 100 },
+  children: [new TextRun({ text: "Sinh viên thực hiện:", bold: true, font: FONT, size: 25, color: "000000" })] }));
+for (const [name, mssv] of [["Phạm Trung Kiên", "2591310"], ["Nguyễn Minh Tuấn", "2591325"], ["Lê Phú Nhân", "2591317"]]) {
+  body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 60 },
+    children: [new TextRun({ text: `${name} — MSSV ${mssv}`, font: FONT, size: 25, color: "000000" })] }));
+}
+body.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 100 },
+  children: [new TextRun({ text: "Lớp: KHMT 2025B", font: FONT, size: 25, color: "000000" })] }));
 body.push(new Paragraph({ children: [new PageBreak()] }));
 
 // TOC
