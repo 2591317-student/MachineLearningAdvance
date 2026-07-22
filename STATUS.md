@@ -49,9 +49,7 @@
   trúc + sơ đồ 4 bước Mamdani + diễn giải cách ra số 0.8391.
 - [x] Tạo `BaoCao_TongHop_RBA.docx` — báo cáo Word hoàn chỉnh (gộp 2 file trên,
   nhúng 7 hình thật, có mục lục tự động). Đã verify XML hợp lệ.
-- [x] `_gen_baocao_rba.js` — script sinh báo cáo Word (giữ lại để chỉnh/tạo lại).
-- [x] Dọn & sắp xếp: đưa toàn bộ file phân tích vào repo; thêm `node_modules/`
-  vào `.gitignore`.
+- [x] Dọn & sắp xếp: đưa toàn bộ tài liệu phân tích vào repo.
 
 ### Kết luận đánh giá
 Dự án **rất hoàn chỉnh**, đáp ứng đủ yêu cầu (model xong + minh họa + giải
@@ -125,7 +123,5 @@ MachineLearningAdvance/
 ├── STATUS.md                    # file này
 ├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx        # slide thuyết trình (18 trang)
 ├── BaoCao_Assets/               # 4 hình minh họa
-├── rba_local_project/           # source + model + outputs
-└── _gen_tools/                  # (GITIGNORE) công cụ sinh báo cáo: _gen_baocao_rba.js,
-                                 #  package.json, node_modules — KHÔNG phải nội dung
+└── rba_local_project/           # source + model + outputs
 ```

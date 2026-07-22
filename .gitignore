@@ -4,7 +4,6 @@ __pycache__/
 venv/
 *.egg-info/
 
-# Công cụ sinh báo cáo (không phải nội dung: script generator + node_modules)
 _gen_tools/
 node_modules/
 
