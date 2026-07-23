@@ -96,6 +96,10 @@ centroid = 10.8463 / 12.9260 = 0.8391
 → **Điểm rủi ro = 0.839** (> 0.5) ⇒ lượt đăng nhập này **rủi ro cao**. Điểm này
 (cùng 15 mức độ thuộc) được đưa vào MLP làm đặc trưng, không phải quyết định cuối.
 
+![Minh họa 4 bước Mamdani cho ra điểm 0.839](GiaiThich_Assets/vd_mamdani_centroid.png)
+
+*Hình A — Trái: độ kích hoạt của 8 luật (chỉ 4 luật High kích hoạt, mạnh nhất R4 = 0.943). Phải: gộp tập mờ High (cắt ngang ở 0.943) rồi lấy trọng tâm (centroid) = 0.839.*
+
 ---
 
 ## B. Huấn luyện MLP — ví dụ Forward & Backpropagation (1 mẫu)
@@ -150,6 +154,10 @@ z mới = 0.55×1.0 + (−0.20)×2.0 + 0.15 = 0.30
 
 Dự đoán tăng từ **0.5 → 0.574**, tiến gần nhãn thật (y = 1) ⇒ Loss giảm. Lặp lại
 B2 → B3 → B4 cho tất cả mẫu, qua nhiều epoch, mô hình sẽ hội tụ.
+
+![Minh họa Forward và Backpropagation của một nơ-ron](GiaiThich_Assets/vd_mlp_forward_backprop.png)
+
+*Hình B — Lan truyền tiến (trên): x → nhân trọng số → cộng bias → sigmoid → ŷ. Lan truyền ngược (dưới): tính Loss, gradient và cập nhật w, b; sau một bước ŷ tiến gần nhãn thật.*
 
 > Ghi chú: MLP thật có 3 tầng ẩn (128 → 64 → 32) với ReLU + BatchNorm + Dropout.
 > Backpropagation tính `∂L/∂z = ŷ − y` ở tầng ra rồi lan truyền ngược qua từng
