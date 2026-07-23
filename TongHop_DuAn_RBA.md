@@ -332,23 +332,23 @@ Input(input_dim)
 
 | Chỉ số | Giá trị | Làm tròn | Ý nghĩa |
 |---|---|---|---|
-| **AUROC** | 0.8773947125732673 | **0.8774** | Khả năng phân biệt tổng quát 2 lớp (1.0 = hoàn hảo) — khá tốt |
-| **AUPRC** | 0.21876371741746312 | **0.2188** | Đáng tin hơn AUROC khi dữ liệu mất cân bằng (~3% dương) |
-| **Accuracy** | 0.7896266666666667 | **0.7896** | Tỉ lệ dự đoán đúng — dễ gây hiểu nhầm với dữ liệu lệch lớp |
-| **Precision** | 0.1117382790001152 | **0.1117** | Trong các cảnh báo tấn công, ~11% là đúng thật |
-| **Recall** | 0.8449477351916377 | **0.8449** | Trong các tấn công thật, bắt được ~84% |
-| **F1** | 0.19737511445721845 | **0.1974** | Điều hòa giữa Precision và Recall |
+| **AUROC** | 0.8780606987724748 | **0.8781** | Khả năng phân biệt tổng quát 2 lớp (1.0 = hoàn hảo) — khá tốt |
+| **AUPRC** | 0.21800058853619694 | **0.2180** | Đáng tin hơn AUROC khi dữ liệu mất cân bằng (~3% dương) |
+| **Accuracy** | 0.7933066666666667 | **0.7933** | Tỉ lệ dự đoán đúng — dễ gây hiểu nhầm với dữ liệu lệch lớp |
+| **Precision** | 0.11331693605059732 | **0.1133** | Trong các cảnh báo tấn công, ~11% là đúng thật |
+| **Recall** | 0.8427700348432056 | **0.8428** | Trong các tấn công thật, bắt được ~84% |
+| **F1** | 0.19977286805698946 | **0.1998** | Điều hòa giữa Precision và Recall |
 
-Tất cả tính ở ngưỡng mặc định 0.5.
+Tất cả tính ở ngưỡng mặc định 0.5. Số liệu trên là sau khi đã sửa cả 2 lỗi (xem mục 8.1): xmin/xmax batch-local và leakage thống kê toàn cục.
 
-**Số liệu bổ sung (chỉ có trong text `.docx`, KHÔNG có trong `metrics.json`)**: nếu chuyển sang **ngưỡng tối ưu F1 = 0.829** thì Precision tăng lên **27.8%**, F1 = **0.327**, đổi lại Recall giảm còn **39.8%**.
+**Số liệu bổ sung (chỉ có trong text `.docx`, KHÔNG có trong `metrics.json`)**: nếu chuyển sang **ngưỡng tối ưu F1 = 0.844** thì Precision tăng lên **28.9%**, F1 = **0.324**, đổi lại Recall giảm còn **37.0%**.
 
 ### 6.2. Diễn giải ý nghĩa trong bối cảnh RBA
 
-- **Recall cao (84.5%) + Precision thấp (11.2%)** là một sự đánh đổi *có chủ đích và hợp lý* cho bài toán bảo mật:
+- **Recall cao (84.3%) + Precision thấp (11.3%)** là một sự đánh đổi *có chủ đích và hợp lý* cho bài toán bảo mật:
   - **Recall cao** nghĩa là hệ thống **bắt được phần lớn tấn công thật** — điều tối quan trọng, vì bỏ sót một IP tấn công (false negative) là rủi ro bảo mật nghiêm trọng.
   - **Precision thấp** nghĩa là có **nhiều báo động giả** (false positive): cứ ~9 cảnh báo thì chỉ ~1 là tấn công thật. Trong RBA, hệ quả của báo động giả "chỉ" là yêu cầu người dùng xác thực thêm (OTP/2FA) — gây phiền nhưng không nguy hiểm. Nguyên nhân trực tiếp: lớp dương chỉ ~3% + ngưỡng cứng 0.5 + loss có `pos_weight` đẩy mô hình thiên về phát hiện dương.
-- **AUPRC (0.219) quan trọng hơn Accuracy/AUROC**: với dữ liệu lệch ~3% dương, một mô hình đoán "tất cả âm" đã đạt Accuracy ~97%, nên Accuracy 0.79 không phản ánh chất lượng thực. AUROC 0.877 trông đẹp nhưng cũng bị "thổi phồng" bởi lớp âm áp đảo. AUPRC 0.219 (so với baseline ngẫu nhiên ~0.03) mới cho thấy mô hình thực sự học được tín hiệu hữu ích.
+- **AUPRC (0.218) quan trọng hơn Accuracy/AUROC**: với dữ liệu lệch ~3% dương, một mô hình đoán "tất cả âm" đã đạt Accuracy ~97%, nên Accuracy 0.79 không phản ánh chất lượng thực. AUROC 0.878 trông đẹp nhưng cũng bị "thổi phồng" bởi lớp âm áp đảo. AUPRC 0.218 (so với baseline ngẫu nhiên ~0.03) mới cho thấy mô hình thực sự học được tín hiệu hữu ích.
 - **Kết luận thực tiễn**: mô hình phù hợp làm tầng sàng lọc rủi ro đầu tiên (ưu tiên không bỏ sót), sau đó dùng ngưỡng linh hoạt theo chi phí thực tế để cân bằng phiền toái người dùng.
 
 ---
@@ -388,7 +388,8 @@ BaoCao_Assets/                       # tài nguyên báo cáo
 ├── hinh3_vidu_mamdani_4buoc.png
 ├── hinh4_kien_truc_mlp.png
 └── rule_list.txt                    # 8 luật + firing + centroid 0.8391
-BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx     # báo cáo cuối kỳ
+BaoCao_TongHop_RBA.docx              # báo cáo cuối kỳ chính thức
+SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx  # slide thuyết trình
 ```
 
 **Các đường dẫn trong `config.py`** đều tính tương đối theo vị trí `config.py` (`os.path.abspath(__file__)`), nên data/outputs luôn trỏ đúng về `rba_local_project/` bất kể thư mục hiện hành. Dòng cuối `config.py` có side effect: `os.makedirs(OUTPUT_DIR, exist_ok=True)` — thư mục `outputs/` được tạo ngay khi import module.
@@ -465,14 +466,16 @@ Hàm tổng hợp `plot_all(results, history)` gọi cả 5.
 - **Kiến trúc lai có tính giải thích**: 8 luật Mamdani mã hóa tri thức chuyên gia một cách minh bạch, đóng vai trò tầng đặc trưng bổ trợ giúp MLP dễ học và dễ diễn giải.
 - **Chống data leakage bài bản ở phần lớn pipeline**: đặc trưng lịch sử user chỉ dùng thông tin quá khứ (shift/cumsum/cumcount); Mamdani FIS, `StandardScaler`, `OneHotEncoder` đều fit **chỉ trên train**; chia dữ liệu stratified có seed cố định (tái lập được).
 - **Chọn nhãn/metric phù hợp bối cảnh mất cân bằng**: dùng `Is Attack IP` (~3% dương) thay vì các cột không khả thi; early stopping và chọn model theo **AUPRC** thay vì accuracy; xử lý mất cân bằng qua `pos_weight`.
-- **Đã phát hiện & sửa một lỗi thực**: hàm `low_med_high()` từng tính lại `xmin/xmax` từ batch truyền vào `transform()` thay vì dùng giá trị toàn cục lúc `fit()`. Với batch lớn ảnh hưởng không đáng kể, nhưng khi inference 1–2 dòng đơn lẻ thì `xmin=xmax=` giá trị mẫu → méo mức thuộc Low/High (bị đẩy về 1.0 giả tạo). **Đã sửa**: `fit()` lưu `self.minmax_` toàn cục của train; `transform()`/`_fuzzify()` dùng cố định; lưu `minmax_` vào pipeline để inference khôi phục đúng. Đã huấn luyện lại (kết quả mục 6 là sau sửa). Kiểm chứng inference: kịch bản "rủi ro cao" → **76.9%** (dự đoán 1), "rủi ro thấp" → **26.3%** (dự đoán 0).
+- **Đã phát hiện & sửa 2 lỗi thực**:
+  1. Hàm `low_med_high()` từng tính lại `xmin/xmax` từ batch truyền vào `transform()` thay vì dùng giá trị toàn cục lúc `fit()`. Với batch lớn ảnh hưởng không đáng kể, nhưng khi inference 1–2 dòng đơn lẻ thì `xmin=xmax=` giá trị mẫu → méo mức thuộc Low/High (bị đẩy về 1.0 giả tạo). **Đã sửa**: `fit()` lưu `self.minmax_` toàn cục của train; `transform()`/`_fuzzify()` dùng cố định; lưu `minmax_` vào pipeline để inference khôi phục đúng. Kiểm chứng inference: kịch bản "rủi ro cao" → **76.9%** (dự đoán 1), "rủi ro thấp" → **26.3%** (dự đoán 0).
+  2. Rò rỉ thống kê toàn cục: trong `engineer_features()`, **median RTT** và **`value_counts` cho country/asn rarity** từng được tính trên **toàn bộ df** (vì `engineer_features` chạy *trước* `prepare_splits`), tức bao gồm cả val/test. **Đã sửa**: thêm `fit_global_stats()`/`apply_global_stats()` trong `features.py`, fit chỉ trên train, lưu `global_stats` vào pipeline, áp lại trong `inference.predict_risk`.
+  - Đã huấn luyện lại sau cả 2 lần sửa (kết quả mục 6 là số liệu mới nhất). Metrics gần như không đổi so với trước khi sửa — đúng như dự đoán vì cả 2 dạng leakage đều nhẹ ở quy mô batch lớn (350.000 dòng train), nhưng pipeline giờ đúng nguyên tắc và đáng tin cậy hơn khi suy luận trên từng mẫu đơn lẻ.
 
-### 8.2. Điểm yếu / rủi ro trong code
+### 8.2. Điểm yếu / rủi ro còn lại
 
-- **Precision thấp (11.2%) ở ngưỡng 0.5**: nhiều báo động giả; chưa tối ưu ngưỡng ở khâu quyết định cuối.
-- **Ngưỡng quyết định cứng 0.5**: dù đã xử lý mất cân bằng ở loss, mã không hạ/tối ưu ngưỡng theo F1 hay theo chi phí thực tế khi sinh `metrics.json` (ngưỡng F1 tối ưu 0.829 chỉ được nêu trong báo cáo, không áp dụng trong code đánh giá).
+- **Precision thấp (11.3%) ở ngưỡng 0.5**: nhiều báo động giả; chưa tối ưu ngưỡng ở khâu quyết định cuối.
+- **Ngưỡng quyết định cứng 0.5**: dù đã xử lý mất cân bằng ở loss, mã không hạ/tối ưu ngưỡng theo F1 hay theo chi phí thực tế khi sinh `metrics.json` (ngưỡng F1 tối ưu 0.844 chỉ được nêu trong báo cáo, không áp dụng trong code đánh giá).
 - **8 luật fuzzy thiết kế thủ công theo trực giác**: chưa được tối ưu/học tự động.
-- **Rò rỉ thống kê toàn cục tinh vi (chưa xử lý trong code)**: trong `engineer_features()`, **median RTT** và **`value_counts` cho country/asn rarity** được tính trên **toàn bộ df** (vì `engineer_features` chạy *trước* `prepare_splits`), tức bao gồm cả val/test. Chỉ FIS/OHE/Scaler mới nghiêm ngặt fit-trên-train. Đây là dạng leakage nhẹ ở đặc trưng thống kê toàn cục — nên tính median/rarity chỉ trên train.
 - **Không ghim phiên bản chính xác** (`requirements.txt` dùng `>=`): có thể lệch hành vi giữa các phiên bản thư viện. Không khai báo phiên bản Python tối thiểu.
 - **Đầu vào inference nặng phụ thuộc lịch sử**: khó dùng cho một lượt đăng nhập đơn lẻ nếu không có ngữ cảnh lịch sử của user (demo phải tự chế kịch bản).
 - **Ghi chú của chính báo cáo**: cần kiểm tra lại DOI/đường dẫn Zenodo của các trích dẫn tham khảo (được ghi từ trí nhớ).
@@ -482,9 +485,8 @@ Hàm tổng hợp `plot_all(results, history)` gọi cả 5.
 - **Xử lý mất cân bằng nâng cao**: thử **Focal Loss** hoặc tinh chỉnh `pos_weight` để cải thiện Precision mà không hy sinh Recall quá nhiều.
 - **Chọn ngưỡng theo chi phí thực tế**: cân bằng giữa chi phí bỏ sót tấn công (false negative) và chi phí làm phiền người dùng (false positive) — chọn ngưỡng theo ma trận chi phí thay vì cố định 0.5.
 - **Tối ưu/học tự động hệ mờ**: mở rộng bộ luật hoặc dùng **ANFIS** (Adaptive Neuro-Fuzzy Inference System) / thuật toán tiến hóa để tự học tham số hàm thành viên và luật thay vì thiết kế thủ công.
-- **Khắc phục leakage thống kê toàn cục**: tính median RTT và tần suất rarity chỉ trên tập train rồi transform cho val/test.
 - **Ghim phiên bản thư viện** để đảm bảo tái lập kết quả.
 
 ### 8.4. Kết luận
 
-Dự án đã xây dựng thành công một hệ lai **MLP + Mamdani Fuzzy** trên ~500.000 lượt đăng nhập cho bài toán RBA. Hệ mờ mã hóa tri thức chuyên gia (8 luật IF-THEN) thành đặc trưng bổ sung giải thích được, ghép cùng đặc trưng số/one-hot làm đầu vào cho MLP 3 tầng ẩn (128→64→32). Kết quả test (AUROC 0.877, AUPRC 0.219, Recall 84.5%, Precision 11.2% ở ngưỡng 0.5) cho thấy mô hình bắt được phần lớn tấn công — phù hợp mục tiêu bảo mật — dù tỉ lệ báo động giả còn cao, một đánh đổi chấp nhận được trong bối cảnh RBA và có thể tinh chỉnh qua ngưỡng. Quá trình rà soát mã còn phát hiện và sửa một lỗi thực trong hệ mờ (xmin/xmax batch-local).
+Dự án đã xây dựng thành công một hệ lai **MLP + Mamdani Fuzzy** trên ~500.000 lượt đăng nhập cho bài toán RBA. Hệ mờ mã hóa tri thức chuyên gia (8 luật IF-THEN) thành đặc trưng bổ sung giải thích được, ghép cùng đặc trưng số/one-hot làm đầu vào cho MLP 3 tầng ẩn (128→64→32). Kết quả test (AUROC 0.878, AUPRC 0.218, Recall 84.3%, Precision 11.3% ở ngưỡng 0.5) cho thấy mô hình bắt được phần lớn tấn công — phù hợp mục tiêu bảo mật — dù tỉ lệ báo động giả còn cao, một đánh đổi chấp nhận được trong bối cảnh RBA và có thể tinh chỉnh qua ngưỡng. Quá trình rà soát mã còn phát hiện và sửa 2 lỗi thực trong pipeline (xmin/xmax batch-local và leakage thống kê toàn cục).
