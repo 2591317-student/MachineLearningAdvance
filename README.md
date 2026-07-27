@@ -7,8 +7,10 @@ toán phát hiện đăng nhập rủi ro (Risk-Based Authentication — RBA).
 
 ```
 CuoiKy/
-├── BaoCao_TongHop_RBA.docx               # Báo cáo chính thức (giải thích thuật toán, công thức, kết quả, hạn chế)
-├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx   # Slide thuyết trình (18 trang)
+├── Nhom_10-Nhan_Kien_Tuan.ipynb          # Notebook (Colab): code chia theo cell + kết quả chạy
+├── Nhom_10-Nhan_Kien_Tuan.docx           # Báo cáo chính thức (giải thích thuật toán, công thức, kết quả)
+├── Nhom_10-Nhan_Kien_Tuan.pptx           # Slide thuyết trình (18 trang)
+├── GiaiThich_ThuatToan_ViDu.md           # Giải thích 2 thuật toán kèm ví dụ tính tay từng bước
 ├── STATUS.md                             # Nhật ký tiến độ / trạng thái dự án
 ├── TongHop_DuAn_RBA.md, LuatMo_SoDo_RBA.md  # Ghi chú phân tích chi tiết
 ├── BaoCao_Assets/                        # Hình minh hoạ thuật toán dùng trong báo cáo/slide
@@ -23,6 +25,15 @@ CuoiKy/
     ├── data/                              # ĐẶT DATASET VÀO ĐÂY (không nằm trong git, xem bên dưới)
     └── README.md                          # hướng dẫn cài đặt & chạy chi tiết
 ```
+
+## Notebook (Colab) — code chia theo từng cell + kết quả
+
+File [`Nhom_10-Nhan_Kien_Tuan.ipynb`](Nhom_10-Nhan_Kien_Tuan.ipynb) trình bày toàn
+bộ pipeline theo **từng code cell kèm kết quả chạy tương ứng**: nạp dữ liệu →
+feature engineering → hệ mờ Mamdani → chia train/val/test → kiến trúc MLP →
+huấn luyện → đánh giá → biểu đồ → suy luận. Notebook tự chạy được trên Colab
+(nếu chưa có dữ liệu thật sẽ dùng mẫu mô phỏng đúng lược đồ để minh họa); phần
+**kết quả chính thức trên 500.000 dòng** được nạp trực tiếp từ `rba_local_project/outputs/`.
 
 ## Bắt đầu nhanh
 
@@ -56,4 +67,4 @@ không cần dataset đầy đủ hay train lại.
 | Precision | 11.3% |
 
 Chi tiết đầy đủ (kiến trúc, công thức, phân tích, hạn chế) xem trong
-[`BaoCao_TongHop_RBA.docx`](BaoCao_TongHop_RBA.docx).
+[`Nhom_10-Nhan_Kien_Tuan.docx`](Nhom_10-Nhan_Kien_Tuan.docx).

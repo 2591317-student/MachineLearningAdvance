@@ -388,8 +388,8 @@ BaoCao_Assets/                       # tài nguyên báo cáo
 ├── hinh3_vidu_mamdani_4buoc.png
 ├── hinh4_kien_truc_mlp.png
 └── rule_list.txt                    # 8 luật + firing + centroid 0.8391
-BaoCao_TongHop_RBA.docx              # báo cáo cuối kỳ chính thức
-SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx  # slide thuyết trình
+Nhom_10-Nhan_Kien_Tuan.docx              # báo cáo cuối kỳ chính thức
+Nhom_10-Nhan_Kien_Tuan.pptx  # slide thuyết trình
 ```
 
 **Các đường dẫn trong `config.py`** đều tính tương đối theo vị trí `config.py` (`os.path.abspath(__file__)`), nên data/outputs luôn trỏ đúng về `rba_local_project/` bất kể thư mục hiện hành. Dòng cuối `config.py` có side effect: `os.makedirs(OUTPUT_DIR, exist_ok=True)` — thư mục `outputs/` được tạo ngay khi import module.

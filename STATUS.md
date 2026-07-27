@@ -1,6 +1,6 @@
 # Trạng thái công việc — Báo cáo cuối kỳ RBA (MLP + Mamdani Fuzzy)
 
-*Ghi lại: đã làm gì, tổng hợp được gì, còn cần làm gì. Cập nhật: 2026-07-20.*
+*Ghi lại: đã làm gì, tổng hợp được gì, còn cần làm gì. Cập nhật: 2026-07-27.*
 
 ---
 
@@ -27,7 +27,7 @@
 
 ### Tài liệu báo cáo (gốc)
 - [x] `BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx` — báo cáo cuối kỳ.
-- [x] `SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx` — **18 slide** (6 phần: bài toán →
+- [x] `Nhom_10-Nhan_Kien_Tuan.pptx` — **18 slide** (6 phần: bài toán →
   kiến trúc → Mamdani → MLP → kết quả → hạn chế).
 - [x] `BaoCao_Assets/` — 4 hình: kiến trúc tổng thể, membership functions,
   ví dụ Mamdani 4 bước (→0.839), kiến trúc MLP; + `rule_list.txt`.
@@ -47,7 +47,7 @@
   liệu, hệ mờ, MLP, kết quả, cách chạy, hạn chế).
 - [x] Tạo `LuatMo_SoDo_RBA.md` — giải thích chi tiết 8 luật mờ + sơ đồ kiến
   trúc + sơ đồ 4 bước Mamdani + diễn giải cách ra số 0.8391.
-- [x] Tạo `BaoCao_TongHop_RBA.docx` — báo cáo Word hoàn chỉnh (gộp 2 file trên,
+- [x] Tạo `Nhom_10-Nhan_Kien_Tuan.docx` — báo cáo Word hoàn chỉnh (gộp 2 file trên,
   nhúng 7 hình thật, có mục lục tự động). Đã verify XML hợp lệ.
 - [x] Dọn & sắp xếp: đưa toàn bộ tài liệu phân tích vào repo.
 
@@ -66,6 +66,11 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 | Làm xong model | ✅ Đạt | Train xong, có metrics, inference chạy được |
 | Minh họa thuật toán | ✅ Đạt | 4 sơ đồ + biểu đồ kết quả |
 | Giải thích thuật toán | ✅ Đạt | Mamdani (4 bước) + MLP (Forward/Backprop, mục 5.5) đều đã giải thích |
+| Code chia theo cell + kết quả chạy | ✅ Đạt | `Nhom_10-Nhan_Kien_Tuan.ipynb` (Colab), mỗi cell có output |
+| Đặt tên file theo cú pháp `Nhom_i-...` | ✅ Đạt | Báo cáo/slide/notebook đều đổi thành `Nhom_10-Nhan_Kien_Tuan.*` |
+| Đúng tên giảng viên (TS. Phan Thị Huyền Trang) | ✅ Đạt | Đã sửa bìa + lời cảm ơn báo cáo, thêm GVHD + Nhóm 10 vào slide |
+| Video báo cáo | 🟢 Cần bạn quay | Quay video thuyết trình, đặt tên `Nhom_10-Nhan_Kien_Tuan.mp4` (nặng thì up Drive) |
+| Nộp UTEXLMS trước 17h CN 02/08/2026 | 🟢 Cần bạn nộp | — |
 
 ---
 
@@ -86,7 +91,7 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 ### ✅ (2) Giải thích thuật toán huấn luyện MLP — ĐÃ THÊM VÀO BÁO CÁO
 - Đã thêm mục **5.5 "Thuật toán huấn luyện: Forward & Backpropagation"** vào
-  `BaoCao_TongHop_RBA.docx` (B1 khởi tạo → B2 forward → B3 loss + backprop →
+  `Nhom_10-Nhan_Kien_Tuan.docx` (B1 khởi tạo → B2 forward → B3 loss + backprop →
   B4 cập nhật, kèm công thức), nối với nguyên lý Perceptron ở Buổi 9.
 
 ### 🟢 (3) Xác nhận miền dữ liệu với thầy/cô — CẦN BẠN LÀM
@@ -99,14 +104,14 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 ### ✅ (5) Gộp 2 báo cáo trùng lặp — ĐÃ XỬ LÝ
 - Repo từng có 2 file báo cáo Word nội dung trùng nhau
-  (`BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx` bản gốc và `BaoCao_TongHop_RBA.docx` bản
+  (`BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx` bản gốc và `Nhom_10-Nhan_Kien_Tuan.docx` bản
   tổng hợp mới hơn, có thêm mục Forward/Backprop). Đã chọn **giữ
-  `BaoCao_TongHop_RBA.docx` làm báo cáo chính thức**, xóa file cũ, cập nhật số
+  `Nhom_10-Nhan_Kien_Tuan.docx` làm báo cáo chính thức**, xóa file cũ, cập nhật số
   liệu mới nhất + thêm mục 8.2 "Lỗi đã phát hiện và khắc phục" (gộp cả 2 lỗi:
   xmin/xmax và leakage thống kê toàn cục).
 
 > **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, báo cáo
-> VÀ slide đều đã đồng bộ với nhau. Slide `SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx`
+> VÀ slide đều đã đồng bộ với nhau. Slide `Nhom_10-Nhan_Kien_Tuan.pptx`
 > đã được cập nhật đúng số liệu retrain mới nhất (AUROC 87.8%, AUPRC 21.8%,
 > Accuracy 79.3%, Precision 11.3%, Recall 84.3%, F1 20.0%) — đã kiểm tra không
 > còn số cũ nào sót lại.
@@ -117,11 +122,11 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 ```
 MachineLearningAdvance/
-├── BaoCao_TongHop_RBA.docx      # báo cáo Word tổng hợp (mới)
+├── Nhom_10-Nhan_Kien_Tuan.docx      # báo cáo Word tổng hợp (mới)
 ├── TongHop_DuAn_RBA.md          # tổng quan toàn dự án (mới)
 ├── LuatMo_SoDo_RBA.md           # chi tiết hệ mờ + sơ đồ (mới)
 ├── STATUS.md                    # file này
-├── SlideThuyetTrinh_RBA_MLP_Fuzzy.pptx        # slide thuyết trình (18 trang)
+├── Nhom_10-Nhan_Kien_Tuan.pptx        # slide thuyết trình (18 trang)
 ├── BaoCao_Assets/               # 4 hình minh họa
 └── rba_local_project/           # source + model + outputs
 ```

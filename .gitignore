@@ -16,6 +16,10 @@ rba_local_project/data/*.csv
 # Backup archive (trùng nội dung với rba_local_project/)
 rba_local_project.7z
 
+# File tham khảo/template của cô (giữ ở máy, không đẩy lên repo)
+JTE-Template-Vie-01.2026.pdf
+CẤU TRÚC ĐỂ VIẾT BÁO CÁO MÔN HỌC MÁY NÂNG CAO.pdf
+
 # OS
 Thumbs.db
 .DS_Store
