@@ -25,17 +25,19 @@
 ## ⚠️ CÒN THIẾU / CẦN LÀM
 
 ### A. Báo cáo JTE — nhóm TỰ viết (không để AI viết)
-- [ ] **Ablation** (bắt buộc theo cấu trúc cô đưa, mục 4.3c): chạy + viết "MLP **không** có đặc trưng mờ" so với "MLP + Mamdani" để chứng minh phần fuzzy có đóng góp. *(Có thể nhờ hỗ trợ phần code/số; phần viết nhóm tự làm.)*
-- [ ] **So sánh với phương pháp khác** (mục 4.2/4.3b): trích kết quả đã công bố (vd Wiefling và cộng sự trên cùng bộ dữ liệu) để đối chiếu.
-- [ ] **Related work + tăng trích dẫn ~8** (hiện 5, chủ yếu sách/công cụ). Ưu tiên báo journal WoS/Scopus; lồng vào phần Giới thiệu. (Danh sách gợi ý: xem cuối file.)
-- [ ] **Thuật toán tổng quát** dạng pseudo-code thể hiện liên kết đầu vào–đầu ra giữa các bước (mục 3).
-- [ ] **Cắt tóm tắt tiếng Việt** từ 265 từ xuống **≤ 250 từ** (bản EN 183 từ đã đạt).
-- [ ] **Điền email tác giả liên hệ** (đang để "[to be added]" / "[bổ sung]").
+- [x] **Ablation** (mục 3.3 + Bảng 3): đã có, số liệu khớp đúng notebook (chạy 246.600 dòng). ✅
+- [x] **Thuật toán tổng quát** (mục 2.4, pseudo-code Algorithm 1). ✅
+- [x] **Trích dẫn 5 → 8** (thêm [6] Freeman, [7] Saito, [8] Jang ANFIS). ✅
+- [x] **Điền email tác giả liên hệ** (đủ 3 email SV). ✅
+- [~] **So sánh với phương pháp khác** (mục 4.2/4.3b): đã lồng trích dẫn Wiefling/Freeman + baseline trong prose; *có thể* thêm 1 bảng đối chiếu số nếu muốn mạnh hơn.
+- [—] **Cắt tóm tắt tiếng Việt ≤250 từ**: nhóm quyết định **giữ nguyên 265 từ** (bỏ qua).
+- [ ] **(nhỏ) Nói rõ nguồn số Bảng 2**: AUROC 0,878 là full 500k (qua source code); notebook cho ~0,866 vì chạy mẫu con 246k → nên 1 câu chú thích cho nhất quán.
 
 ### B. File nộp — đặt tên đúng cú pháp & tránh nhầm
-- [x] **Đổi tên báo cáo JTE** → `Nhom_10-Nhan_Kien_Tuan.docx` (đây là báo cáo nộp). ✅
-- [x] Đã gỡ bản AI (mẫu HCMUTE) khỏi repo (còn bản sao lưu ở máy + trong lịch sử git). ✅
-- [ ] Slide: nếu nộp thì giữ tên `Nhom_10-Nhan_Kien_Tuan.pptx`.
+- [x] **Đổi tên báo cáo JTE** → `Nhom_10-Nhan_Kien_Tuan.docx`. ✅
+- [x] Đã gỡ bản AI (mẫu HCMUTE) khỏi repo. ✅
+- [x] Chốt **1 notebook** duy nhất `Nhom_10-Nhan_Kien_Tuan.ipynb` (+ header nhóm). ✅
+- [ ] **(nhỏ) Slide chưa có ablation**: báo cáo đã thêm mục 3.3, nên bổ sung 1 slide ablation để khớp khi quay video.
 
 ### C. Video & nộp
 - [ ] **Quay video báo cáo 10–15 phút** → đặt tên `Nhom_10-Nhan_Kien_Tuan.mp4` (nặng thì up Google Drive, gửi link cho cô).
