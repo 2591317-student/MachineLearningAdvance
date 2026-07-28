@@ -1,0 +1,339 @@
+<!-- Slide number: 1 -->
+
+BÁO CÁO CUỐI KỲ  •  HỌC MÁY NÂNG CAO
+Phát hiện đăng nhập rủi ro
+bằng MLP kết hợp Fuzzy Logic
+Risk-Based Authentication (RBA)  —  Mamdani Fuzzy Inference System + Multi-Layer Perceptron
+
+Phạm Trung Kiên — 2591310      Nguyễn Minh Tuấn — 2591325      Lê Phú Nhân — 2591317
+Nhóm 10   •   Lớp: KHMT 2025B   •   GVHD: TS. Phan Thị Huyền Trang
+
+### Notes:
+Slide mở đầu — giới thiệu đề tài: phát hiện đăng nhập rủi ro (RBA) bằng mô hình lai MLP kết hợp hệ mờ Mamdani. Giới thiệu nhóm và lớp. Lưu ý: nhấn mạnh đây là bài toán bảo mật thực tế, kết hợp học máy (MLP) với tri thức chuyên gia (luật mờ).
+
+<!-- Slide number: 2 -->
+NỘI DUNG TRÌNH BÀY
+6 phần chính
+
+Bài toán RBA
+Kiến trúc hệ thống
+
+01
+
+02
+Vì sao cần chấm điểm rủi ro đăng nhập
+Mô hình lai MLP + Mamdani Fuzzy
+
+Mamdani Fuzzy Logic
+Mạng MLP
+
+03
+
+04
+4 bước suy diễn mờ, minh hoạ số cụ thể
+Kiến trúc, loss, huấn luyện
+
+Kết quả thực nghiệm
+Hạn chế & Kết luận
+
+05
+
+06
+AUROC, AUPRC, Precision/Recall
+Phát hiện khi phân tích lại mã nguồn
+2
+
+### Notes:
+Nêu mạch trình bày gồm 6 phần: (1) bài toán RBA, (2) kiến trúc hệ thống, (3) hệ mờ Mamdani, (4) mạng MLP, (5) kết quả thực nghiệm, (6) hạn chế & kết luận. Lưu ý: đi nhanh slide này, chỉ giới thiệu bố cục.
+
+<!-- Slide number: 3 -->
+PHẦN 1 · BÀI TOÁN
+Risk-Based Authentication là gì?
+Thay vì chỉ kiểm tra “đúng mật khẩu là cho vào”, hệ thống chấm một điểm rủi ro cho mỗi lượt đăng nhập dựa trên nhiều tín hiệu ngữ cảnh: vị trí, thiết bị, nhà mạng, thời điểm, và lịch sử hành vi của chính người dùng đó.
+
+Đăng nhập
+▼
+
+Chấm điểm
+rủi ro
+Mục tiêu đồ án: dự đoán xác suất một lượt đăng nhập đến từ IP tấn công, trên 500.000 dòng dữ liệu log thật.
+▼
+
+An toàn → cho qua
+Rủi ro → xác thực thêm
+3
+
+### Notes:
+Giải thích RBA: thay vì chỉ kiểm tra đúng/sai mật khẩu, hệ thống chấm điểm rủi ro cho mỗi lượt đăng nhập dựa trên ngữ cảnh (vị trí, thiết bị, nhà mạng, thời điểm, lịch sử hành vi). Rủi ro thấp → cho qua; rủi ro cao → yêu cầu xác thực thêm (OTP/2FA). Mục tiêu đồ án: dự đoán xác suất một lượt đăng nhập đến từ IP tấn công, trên 500.000 dòng log thật. Lưu ý: nhấn mạnh RBA cân bằng giữa an toàn và trải nghiệm người dùng.
+
+<!-- Slide number: 4 -->
+PHẦN 1 · BÀI TOÁN
+Bộ dữ liệu
+
+500.000
+~3%
+16
+lượt đăng nhập
+là tấn công (Is Attack IP)
+cột đặc trưng thô
+Nguồn: “Login Data Set for Risk-Based Authentication” (Wiefling, Lo Iacono, Dürmuth) — dữ liệu log đăng nhập thật đã ẩn danh hoá.
+Login Timestamp, User ID, Round-Trip Time
+Country, Region, City, ASN
+
+Device Type, Browser, OS
+Login Successful, Is Attack IP, Is Account Takeover
+
+4
+
+### Notes:
+Bộ dữ liệu khoảng 500.000 lượt đăng nhập, chỉ ~3% là tấn công (mất cân bằng nặng), 16 cột thô. Nguồn: Login Data Set for RBA (Wiefling và cộng sự) — log thật đã ẩn danh. Các cột gồm thời gian, User ID, RTT, vị trí (Country/City/ASN), thiết bị/trình duyệt/OS và các nhãn. Lưu ý: nhấn tỉ lệ ~3% dương là mấu chốt khiến bài toán khó và cần xử lý mất cân bằng.
+
+<!-- Slide number: 5 -->
+PHẦN 1 · BÀI TOÁN
+Vì sao chọn nhãn “Is Attack IP”?
+
+✗ Không dùng
+✗ Không dùng
+✓ ĐÃ CHỌN
+Is Account Takeover
+Login Successful
+Is Attack IP
+Chỉ ~4 mẫu dương / 500.000 dòng
+→ quá ít để học
+Phản ánh lỗi kỹ thuật
+hơn là rủi ro bảo mật
+~3% dương — đủ dữ liệu
+và đúng bản chất bài toán
+5
+
+### Notes:
+Giải thích lý do chọn nhãn Is Attack IP: Is Account Takeover chỉ có ~4 mẫu dương trên 500.000 dòng (quá ít để học); Login Successful chỉ phản ánh lỗi kỹ thuật, không phải rủi ro bảo mật; Is Attack IP có ~3% dương — đủ dữ liệu và đúng bản chất bài toán chấm rủi ro. Lưu ý: đây là một quyết định quan trọng về dữ liệu, nên giải thích rõ.
+
+<!-- Slide number: 6 -->
+PHẦN 2 · KIẾN TRÚC HỆ THỐNG
+Mô hình lai: MLP + Mamdani Fuzzy
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/BaoCao_Assets/hinh1_kien_truc_tong_the.png](Image0.jpg)
+6
+
+### Notes:
+Slide chuyển phần — giới thiệu kiến trúc mô hình lai MLP + Mamdani Fuzzy (xem sơ đồ tổng thể). Lưu ý: nhấn ý tưởng cốt lõi — hệ mờ tạo ra đặc trưng rủi ro, MLP dùng làm bộ phân loại; hai phần kết hợp ở TẦNG ĐẶC TRƯNG, không phải chạy song song để so sánh.
+
+<!-- Slide number: 7 -->
+PHẦN 2 · KIẾN TRÚC HỆ THỐNG
+Trích xuất đặc trưng (Feature Engineering)
+Đặc trưng “lịch sử người dùng” chỉ dùng thông tin TRƯỚC ĐÓ (shift theo thời gian) — tránh Data Leakage.
+
+🕐
+
+📶
+
+🌍
+Thời gian
+Mạng
+Độ hiếm toàn cục
+hour_of_day, day_of_week, is_weekend, is_odd_hour
+rtt_filled, rtt_missing
+country_rarity, asn_rarity = 1 − tần suất
+
+👤
+
+💻
+Lịch sử user
+Thiết bị
+time_since_last_login_h, is_new_country/city/asn/device, user_success_rate_so_far, num_changes
+Device Type (one-hot encoding)
+7
+
+### Notes:
+Trình bày 5 nhóm đặc trưng: thời gian, mạng (RTT), độ hiếm toàn cục Country/ASN, lịch sử người dùng, và thiết bị (mã hóa one-hot). Điểm kỹ thuật quan trọng: đặc trưng lịch sử chỉ dùng thông tin TRƯỚC ĐÓ của người dùng (dịch theo thời gian) để tránh rò rỉ dữ liệu (data leakage). Lưu ý: giám khảo hay hỏi về leakage — nên nhấn chỗ này.
+
+<!-- Slide number: 8 -->
+PHẦN 3 · MAMDANI FUZZY LOGIC
+4 bước suy diễn mờ (Mamdani FIS)
+
+1
+
+2
+
+3
+
+4
+Mờ hóa (Fuzzification)
+Đánh giá luật (Rule Evaluation)
+Gộp mờ (Aggregation)
+Giải mờ (Defuzzification)
+→
+→
+→
+5 biến → Low/Medium/High
+(hàm tam giác, ngưỡng percentile train)
+8 luật IF-THEN
+AND = min, OR = max
+Gộp 3 tập mờ đầu ra
+bằng toán tử max
+Centroid → 1 điểm rủi ro
+duy nhất trong [0,1]
+8
+
+### Notes:
+Giải thích 4 bước suy diễn mờ Mamdani: (1) Mờ hóa — đưa 5 biến về mức Low/Medium/High bằng hàm tam giác, ngưỡng lấy từ phân vị trên tập train; (2) Đánh giá luật — 8 luật IF-THEN, AND = min, OR = max; (3) Gộp mờ — gộp 3 tập mờ đầu ra bằng phép max; (4) Giải mờ — dùng centroid để ra 1 điểm rủi ro duy nhất trong [0,1]. Lưu ý: đây là thuật toán cốt lõi, nên giải thích chậm và kỹ.
+
+<!-- Slide number: 9 -->
+PHẦN 3 · MAMDANI FUZZY LOGIC
+Hàm thành viên thực tế (fit trên 500.000 dòng Train)
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/BaoCao_Assets/hinh2_membership_functions.png](Image0.jpg)
+9
+
+### Notes:
+Cho xem các hàm thành viên thực tế (fit trên 500.000 dòng train): mỗi biến chia Low/Medium/High bằng hàm tam giác, ngưỡng lấy từ phân vị 20/50/80. Lưu ý: nhấn rằng ngưỡng được HỌC TỪ dữ liệu train chứ không đặt tùy tiện, và min/max cũng lấy từ train để tránh lệch khi suy luận.
+
+<!-- Slide number: 10 -->
+PHẦN 3 · MAMDANI FUZZY LOGIC
+8 luật IF-THEN (tri thức chuyên gia)
+| Luật | Điều kiện (IF) | Kết luận |
+| --- | --- | --- |
+| R1 | new\_country AND new\_asn AND gap\_high | High |
+| R2 | success\_rate\_low | High |
+| R3 | num\_changes\_high | High |
+| R4 | asn\_rarity\_high | High |
+| R5 | NOT new\_country AND NOT new\_asn AND changes\_low AND success\_high | Low |
+| R6 | gap\_low AND country\_rarity\_low | Low |
+| R7 | changes\_med OR gap\_med | Medium |
+| R8 | success\_med AND (NOT new\_country OR NOT new\_asn) | Medium |
+10
+
+### Notes:
+Giải thích bảng 8 luật IF-THEN mã hóa tri thức chuyên gia: R1–R4 đẩy về High (quốc gia/ASN mới, tỉ lệ thành công thấp, nhiều thay đổi, ASN hiếm); R5–R6 kéo về Low; R7–R8 giữ Medium. Lưu ý: thiết kế bất đối xứng có chủ đích — nhiều luật High hơn vì bảo mật ưu tiên phát hiện rủi ro.
+
+<!-- Slide number: 11 -->
+PHẦN 3 · MAMDANI FUZZY LOGIC
+Ví dụ minh hoạ trên 1 mẫu cụ thể
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/BaoCao_Assets/hinh3_vidu_mamdani_4buoc.png](Image0.jpg)
+
+0.839
+Điểm rủi ro Centroid
+score — RỦI RO CAO
+11
+
+### Notes:
+Chạy một ví dụ cụ thể (mẫu rủi ro cao) qua 4 bước → điểm centroid = 0.839 (rủi ro cao). Luật R4 (asn_rarity ≈ 0.943) và R2 (tỉ lệ thành công thấp) kích hoạt mạnh nhất, kéo điểm lên cao. Lưu ý: dùng ví dụ số cụ thể để cho thấy hệ mờ ra quyết định như thế nào.
+
+<!-- Slide number: 12 -->
+PHẦN 4 · MẠNG MLP
+Kiến trúc mạng MLP (bộ phân loại)
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/BaoCao_Assets/hinh4_kien_truc_mlp.png](Image0.jpg)
+12
+
+### Notes:
+Trình bày kiến trúc MLP: đầu vào khoảng 39 chiều (19 đặc trưng số + one-hot Device Type + 16 đặc trưng mờ) → 3 tầng ẩn 128–64–32 (Linear + ReLU + BatchNorm + Dropout 0.3) → 1 logit → sigmoid ra xác suất. Lưu ý: nhấn 16 đặc trưng mờ từ Mamdani được đưa THẲNG vào MLP làm đầu vào.
+
+<!-- Slide number: 13 -->
+PHẦN 4 · MẠNG MLP
+Chiến lược huấn luyện
+
+Xử lý mất cân bằng
+BCEWithLogitsLoss với pos_weight = n_âm / n_dương (chỉ ~3% mẫu dương)
+
+⚖️
+
+Bộ tối ưu (Optimizer)
+Adam (learning rate = 1e-3, weight decay = 1e-5)
+
+🚀
+
+Bộ điều chỉnh LR (Scheduler)
+ReduceLROnPlateau — giảm nửa LR nếu Val AUPRC không cải thiện sau 2 epoch
+
+📉
+
+Dừng sớm (Early stopping)
+Dừng nếu Val AUPRC không cải thiện sau 5 epoch (tối đa 30 epoch)
+
+⏹️
+
+Chia dữ liệu
+70% Train / 15% Validation / 15% Test, stratified theo nhãn
+
+✂️
+13
+
+### Notes:
+Năm kỹ thuật huấn luyện: (1) xử lý mất cân bằng bằng BCEWithLogitsLoss với pos_weight = số âm/số dương; (2) tối ưu Adam, lr = 1e-3; (3) ReduceLROnPlateau giảm LR khi Val AUPRC chững; (4) dừng sớm theo Val AUPRC; (5) chia 70/15/15 phân tầng theo nhãn. Lưu ý: chọn mô hình tốt nhất theo AUPRC (không phải Accuracy) vì dữ liệu mất cân bằng.
+
+<!-- Slide number: 14 -->
+PHẦN 5 · KẾT QUẢ THỰC NGHIỆM
+Đánh giá trên tập Test (75.000 dòng)
+
+87.8%
+21.8%
+79.3%
+11.3%
+84.3%
+20.0%
+AUROC
+AUPRC
+Accuracy
+Precision
+Recall
+F1
+Recall cao (84.3%) — bắt được phần lớn tấn công thật.  Precision thấp (11.3%) — hệ quả của dữ liệu mất cân bằng (~3% dương) ở ngưỡng mặc định 0.5. Đổi ngưỡng theo F1 (0.844): Precision → 28.9%, F1 → 0.324.
+14
+
+### Notes:
+Kết quả trên tập test 75.000 dòng: AUROC 87.8%, AUPRC 21.8%, Accuracy 79.3%, Precision 11.3%, Recall 84.3%, F1 20.0%. Recall cao = bắt được phần lớn tấn công; Precision thấp = nhiều báo động giả do mất cân bằng ở ngưỡng 0.5. Lưu ý: nhấn AUPRC (so với baseline ngẫu nhiên ~3%) mới phản ánh chất lượng thật; Accuracy dễ gây hiểu nhầm với dữ liệu lệch lớp.
+
+<!-- Slide number: 15 -->
+PHẦN 5 · KẾT QUẢ THỰC NGHIỆM
+Đường cong huấn luyện & ROC / Precision-Recall
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/rba_local_project/outputs/training_curves.png](Image0.jpg)
+
+![D:/06.BT/MachineLearningAdvance/CuoiKy/rba_local_project/outputs/roc_pr_curves.png](Image1.jpg)
+
+NHẬN XÉT
+Train loss giảm ổn định, Val AUPRC/AUROC hội tụ trước epoch 30 (early stopping kích hoạt) → mô hình không overfitting. AUC-ROC = 0.878 cho thấy khả năng phân biệt tốt; đường Precision-Recall thấp hơn nhiều so với ROC — đúng đặc trưng của bài toán có tỷ lệ dương chỉ ~3%, nơi AUPRC phản ánh độ khó thực tế rõ hơn AUROC.
+15
+
+### Notes:
+Phân tích biểu đồ: train loss giảm ổn định, Val AUPRC/AUROC hội tụ trước epoch 30 (early stopping kích hoạt) → mô hình không overfitting. Đường Precision-Recall thấp hơn ROC nhiều — đúng đặc trưng bài toán chỉ ~3% dương. Lưu ý: dùng đường cong để chứng minh mô hình học ổn định và AUPRC mới là thước đo khó.
+
+<!-- Slide number: 16 -->
+PHẦN 6 · HẠN CHẾ & KẾT LUẬN
+Hạn chế & Hướng phát triển
+
+✓  ĐÃ PHÁT HIỆN & KHẮC PHỤC (2 lỗi)
+⚠  HẠN CHẾ CÒN LẠI & HƯỚNG PHÁT TRIỂN
+Lỗi 1 — Thước đo dùng để chấm điểm trước đây bị tính lại theo từng nhóm dữ liệu nhỏ thay vì cố định từ lúc huấn luyện, làm điểm rủi ro của một lượt đăng nhập riêng lẻ bị lệch. Đã sửa: cố định thước đo học từ tập huấn luyện.
+Lỗi 2 — Một vài con số thống kê chung trước đây được tính trên cả phần dữ liệu dùng để kiểm tra, làm kết quả đánh giá cao hơn thực tế. Đã sửa: chỉ tính trên phần dữ liệu huấn luyện.
+Sau khi sửa cả 2 lỗi, mô hình đã được huấn luyện lại và chạy thử — cho kết quả hợp lý, phân biệt rõ trường hợp rủi ro cao và thấp.
+Tỉ lệ cảnh báo đúng còn thấp: trung bình khoảng 9 cảnh báo tấn công mới có 1 cảnh báo đúng (nhiều báo động giả). Có thể chỉnh mức ngưỡng để tăng tỉ lệ đúng, nhưng đổi lại sẽ bỏ sót nhiều tấn công hơn.
+8 luật của hệ mờ hiện do con người tự đặt, chưa để máy tự học từ dữ liệu.
+Hướng phát triển: xử lý dữ liệu mất cân bằng tốt hơn, chọn mức ngưỡng theo chi phí thực tế, và cho máy tự học bộ luật mờ thay vì đặt thủ công.
+16
+
+### Notes:
+Đã phát hiện và khắc phục 2 lỗi: (1) hàm xmin/xmax trong hệ mờ từng tính lại theo từng batch (méo kết quả khi suy luận 1 dòng) — đã lưu cố định từ fit(); (2) rò rỉ thống kê toàn cục (median RTT, độ hiếm Country/ASN) trước đây tính trên cả val/test — đã sửa để chỉ fit trên train và huấn luyện lại. Hạn chế còn lại: Precision thấp; 8 luật mờ thiết kế thủ công. Hướng phát triển: Focal Loss, chọn ngưỡng theo chi phí, hoặc ANFIS. Lưu ý: nêu 2 lỗi tự phát hiện để thể hiện hiểu sâu và trung thực.
+
+<!-- Slide number: 17 -->
+KẾT LUẬN
+Một hệ thống lai — nơi tri thức chuyên gia
+và học sâu bổ trợ lẫn nhau
+Mamdani Fuzzy Inference System mã hoá tri thức chuyên gia (8 luật IF-THEN) thành đặc trưng bổ sung; MLP học phần còn lại từ dữ liệu thô. Trên 500.000 lượt đăng nhập thật, mô hình đạt AUROC 0.878 và Recall 84.3% — phát hiện được phần lớn tấn công, với đánh đổi báo động giả có thể điều chỉnh qua ngưỡng quyết định.
+
+17
+
+### Notes:
+Kết luận: hệ lai MLP + Mamdani — tri thức chuyên gia (8 luật IF-THEN) và học sâu bổ trợ lẫn nhau. Trên 500.000 lượt đăng nhập thật, mô hình đạt AUROC 0.878 và Recall 84.3%, phát hiện được phần lớn tấn công; đánh đổi báo động giả có thể điều chỉnh qua ngưỡng quyết định. Lưu ý: nhấn đóng góp và tính GIẢI THÍCH ĐƯỢC của mô hình.
+
+<!-- Slide number: 18 -->
+
+CẢM ƠN THẦY/CÔ
+ĐÃ LẮNG NGHE
+Câu hỏi & thảo luận
+
+### Notes:
+Slide cảm ơn và mời câu hỏi. Lưu ý: chuẩn bị sẵn câu trả lời cho các câu hỏi thường gặp — vì sao Precision thấp, cách chống data leakage, vì sao chọn Mamdani thay vì mô hình khác, ý nghĩa AUPRC.
