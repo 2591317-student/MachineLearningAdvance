@@ -58,14 +58,14 @@ biểu đồ kết quả từ lần train gần nhất — không bắt buộc p
 muốn xem/dùng kết quả. Chạy `python inference.py` để thử dự đoán ngay mà
 không cần dataset đầy đủ hay train lại.
 
-## Kết quả (tập Test, 75.000 dòng)
+## Kết quả (tập Test, 36.997 dòng)
 
 | Metric | Giá trị |
 |---|---|
-| AUROC | 0.878 |
-| AUPRC | 0.218 |
-| Recall | 84.3% |
-| Precision | 11.3% |
+| AUROC | 0.866 |
+| AUPRC | 0.223 |
+| Recall | 84.9% |
+| Precision | 9.9% |
 
 Chi tiết đầy đủ (kiến trúc, công thức, phân tích, hạn chế) xem trong
 [`Nhom_10-Nhan_Kien_Tuan.docx`](Nhom_10-Nhan_Kien_Tuan.docx).

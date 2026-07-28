@@ -32,10 +32,10 @@
 - [x] `BaoCao_Assets/` — 4 hình: kiến trúc tổng thể, membership functions,
   ví dụ Mamdani 4 bước (→0.839), kiến trúc MLP; + `rule_list.txt`.
 
-### Kết quả model (tập Test, 75.000 dòng)
+### Kết quả model (tập Test 36.997 dòng — mẫu con 246.600 dòng chạy trên Colab)
 | AUROC | AUPRC | Accuracy | Precision | Recall | F1 |
 |---|---|---|---|---|---|
-| 0.877 | 0.219 | 0.790 | 0.112 | 0.845 | 0.197 |
+| 0.866 | 0.223 | 0.754 | 0.099 | 0.849 | 0.177 |
 
 ---
 
@@ -83,8 +83,8 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
   trong `inference.predict_risk`.
 - **Đã train lại** với dataset thật (`data/rba_sample_500k.csv`, máy có sklearn
   1.7.2): `outputs/` (model, pipeline, metrics.json, 5 biểu đồ) giờ khớp đúng
-  code mới. Metrics gần như không đổi (AUROC 0.878, AUPRC 0.218, Recall 84.3%,
-  Precision 11.3%) — leakage vốn nhẹ ở quy mô batch lớn, nhưng pipeline giờ
+  code mới. Kết quả chính thức (notebook 246k) AUROC 0.866, AUPRC 0.223, Recall 84.9%,
+  Precision 9.9% — leakage vốn nhẹ ở quy mô batch lớn, nhưng pipeline giờ
   đúng nguyên tắc.
 - **Đã kiểm thử:** `python inference.py` chạy được với pipeline mới (có khóa
   `global_stats`), 2 kịch bản rủi ro cao/thấp cho kết quả tách biệt hợp lý.
@@ -112,8 +112,8 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 > **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, báo cáo
 > VÀ slide đều đã đồng bộ với nhau. Slide `Nhom_10-Nhan_Kien_Tuan.pptx`
-> đã được cập nhật đúng số liệu retrain mới nhất (AUROC 87.8%, AUPRC 21.8%,
-> Accuracy 79.3%, Precision 11.3%, Recall 84.3%, F1 20.0%) — đã kiểm tra không
+> đã được cập nhật đúng số liệu retrain mới nhất (AUROC 86.6%, AUPRC 22.3%,
+> Accuracy 75.4%, Precision 9.9%, Recall 84.9%, F1 17.7%) — đã kiểm tra không
 > còn số cũ nào sót lại.
 
 ---

@@ -31,13 +31,13 @@
 - [x] **Điền email tác giả liên hệ** (đủ 3 email SV). ✅
 - [~] **So sánh với phương pháp khác** (mục 4.2/4.3b): đã lồng trích dẫn Wiefling/Freeman + baseline trong prose; *có thể* thêm 1 bảng đối chiếu số nếu muốn mạnh hơn.
 - [—] **Cắt tóm tắt tiếng Việt ≤250 từ**: nhóm quyết định **giữ nguyên 265 từ** (bỏ qua).
-- [ ] **(nhỏ) Nói rõ nguồn số Bảng 2**: AUROC 0,878 là full 500k (qua source code); notebook cho ~0,866 vì chạy mẫu con 246k → nên 1 câu chú thích cho nhất quán.
+- [x] **Đồng bộ kết quả về 246k**: Bảng 2 + abstract (EN/VI) + thảo luận + confusion + cỡ test (36.997) + slide + README + STATUS đều dùng số notebook 246k → khớp 100% với code. ✅
 
 ### B. File nộp — đặt tên đúng cú pháp & tránh nhầm
 - [x] **Đổi tên báo cáo JTE** → `Nhom_10-Nhan_Kien_Tuan.docx`. ✅
 - [x] Đã gỡ bản AI (mẫu HCMUTE) khỏi repo. ✅
 - [x] Chốt **1 notebook** duy nhất `Nhom_10-Nhan_Kien_Tuan.ipynb` (+ header nhóm). ✅
-- [ ] **(nhỏ) Slide chưa có ablation**: báo cáo đã thêm mục 3.3, nên bổ sung 1 slide ablation để khớp khi quay video.
+- [x] **Slide ablation**: đã thêm slide 15 (Δ có/không fuzzy) + ghi chú thuyết trình; slide đánh số lại (19 trang). ✅
 
 ### C. Video & nộp
 - [ ] **Quay video báo cáo 10–15 phút** → đặt tên `Nhom_10-Nhan_Kien_Tuan.mp4` (nặng thì up Google Drive, gửi link cho cô).
