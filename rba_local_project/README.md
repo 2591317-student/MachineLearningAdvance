@@ -77,6 +77,15 @@ Script sẽ tự động:
 
 Có thể chỉnh số epoch, batch size, kiến trúc mạng... trong `src/config.py`.
 
+> **Lưu ý về `outputs/` sẵn có trong repo:** `metrics.json` và các biểu đồ trong
+> `outputs/` đã được đồng bộ với **kết quả chính thức trong báo cáo** — tức lần chạy
+> trên **mẫu con ~246.600 dòng** (tập test 36.997 dòng) bằng notebook
+> `Nhom_10-Nhan_Kien_Tuan.ipynb` trên Google Colab: AUROC 0.866, AUPRC 0.223,
+> Recall 0.849, F1 0.177. Nếu chạy lại `train.py` trên **toàn bộ** file
+> `rba_sample_500k.csv`, các số này sẽ được ghi đè bằng kết quả trên 500k dòng
+> (khác biệt nhẹ). File `mlp_mamdani_model.pt`/`preprocessing_pipeline.pkl` là
+> trọng số/bộ tiền xử lý đã huấn luyện, dùng trực tiếp cho `inference.py`.
+
 ## 5. Test / Dự đoán với dữ liệu mới (sau khi đã train)
 
 ```bash
