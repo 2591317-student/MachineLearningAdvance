@@ -29,11 +29,12 @@ CuoiKy/
 ## Notebook (Colab) — code chia theo từng cell + kết quả
 
 File [`Nhom_10-Nhan_Kien_Tuan.ipynb`](Nhom_10-Nhan_Kien_Tuan.ipynb) trình bày toàn
-bộ pipeline theo **từng code cell kèm kết quả chạy tương ứng**: nạp dữ liệu →
-feature engineering → hệ mờ Mamdani → chia train/val/test → kiến trúc MLP →
-huấn luyện → đánh giá → biểu đồ → suy luận. Notebook tự chạy được trên Colab
-(nếu chưa có dữ liệu thật sẽ dùng mẫu mô phỏng đúng lược đồ để minh họa); phần
-**kết quả chính thức trên 500.000 dòng** được nạp trực tiếp từ `rba_local_project/outputs/`.
+bộ pipeline theo **từng code cell kèm kết quả chạy tương ứng** (23 bước): nạp dữ
+liệu thật → feature engineering theo lịch sử đăng nhập → hệ mờ Mamdani → chia
+train/val/test → kiến trúc MLP → huấn luyện → đánh giá + biểu đồ → lưu model →
+suy luận demo → **ablation (MLP có/không đặc trưng mờ)**. Notebook chạy trên
+Google Colab; để phù hợp tài nguyên, có thể huấn luyện trên một mẫu con của bộ
+dữ liệu (kết quả chính thức đầy đủ 500.000 dòng nằm ở `rba_local_project/outputs/`).
 
 ## Bắt đầu nhanh
 
