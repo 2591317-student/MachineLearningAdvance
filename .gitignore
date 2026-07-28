@@ -20,6 +20,10 @@ rba_local_project.7z
 JTE-Template-Vie-01.2026.pdf
 CẤU TRÚC ĐỂ VIẾT BÁO CÁO MÔN HỌC MÁY NÂNG CAO.pdf
 
+# File dump kiểm tra tạm
+docx_check.txt
+pptx_check.txt
+
 # OS
 Thumbs.db
 .DS_Store
