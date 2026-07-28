@@ -9,7 +9,7 @@ toán phát hiện đăng nhập rủi ro (Risk-Based Authentication — RBA).
 CuoiKy/
 ├── Nhom_10-Nhan_Kien_Tuan.ipynb          # Notebook (Colab): code chia theo cell + kết quả chạy
 ├── Nhom_10-Nhan_Kien_Tuan.docx           # Báo cáo chính thức (giải thích thuật toán, công thức, kết quả)
-├── Nhom_10-Nhan_Kien_Tuan.pptx           # Slide thuyết trình (18 trang)
+├── Nhom_10-Nhan_Kien_Tuan.pptx           # Slide thuyết trình (19 trang)
 ├── GiaiThich_ThuatToan_ViDu.md           # Giải thích 2 thuật toán kèm ví dụ tính tay từng bước
 ├── STATUS.md                             # Nhật ký tiến độ / trạng thái dự án
 ├── TongHop_DuAn_RBA.md, LuatMo_SoDo_RBA.md  # Ghi chú phân tích chi tiết
@@ -33,8 +33,8 @@ bộ pipeline theo **từng code cell kèm kết quả chạy tương ứng** (2
 liệu thật → feature engineering theo lịch sử đăng nhập → hệ mờ Mamdani → chia
 train/val/test → kiến trúc MLP → huấn luyện → đánh giá + biểu đồ → lưu model →
 suy luận demo → **ablation (MLP có/không đặc trưng mờ)**. Notebook chạy trên
-Google Colab; để phù hợp tài nguyên, có thể huấn luyện trên một mẫu con của bộ
-dữ liệu (kết quả chính thức đầy đủ 500.000 dòng nằm ở `rba_local_project/outputs/`).
+Google Colab trên **toàn bộ 500.000 lượt đăng nhập** (train 350.000 / val 75.000 /
+test 75.000); kết quả và biểu đồ tương ứng được lưu ở `rba_local_project/outputs/`.
 
 ## Bắt đầu nhanh
 
@@ -58,14 +58,14 @@ biểu đồ kết quả từ lần train gần nhất — không bắt buộc p
 muốn xem/dùng kết quả. Chạy `python inference.py` để thử dự đoán ngay mà
 không cần dataset đầy đủ hay train lại.
 
-## Kết quả (tập Test, 36.997 dòng)
+## Kết quả (tập Test, 75.000 dòng)
 
 | Metric | Giá trị |
 |---|---|
-| AUROC | 0.866 |
-| AUPRC | 0.223 |
-| Recall | 84.9% |
-| Precision | 9.9% |
+| AUROC | 0.877 |
+| AUPRC | 0.216 |
+| Recall | 84.3% |
+| Precision | 11.4% |
 
 Chi tiết đầy đủ (kiến trúc, công thức, phân tích, hạn chế) xem trong
 [`Nhom_10-Nhan_Kien_Tuan.docx`](Nhom_10-Nhan_Kien_Tuan.docx).

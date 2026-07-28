@@ -13,9 +13,9 @@
 ---
 
 ## ✅ Đã xong
-- **Code:** `Nhom_10-Nhan_Kien_Tuan.ipynb` — notebook Colab nhóm chạy thực tế (23 bước, có ablation), chia theo từng cell + kết quả chạy, 0 lỗi. *(Đã chốt 1 notebook duy nhất để nộp — thay bằng bản `RBA_MLP_(1).ipynb`, bỏ bản demo cũ.)*
+- **Code:** `Nhom_10-Nhan_Kien_Tuan.ipynb` — notebook Colab nhóm chạy thực tế (23 bước, có ablation), chia theo từng cell + kết quả chạy, 0 lỗi. **Chạy trên TOÀN BỘ 500.000 dòng** (train 350.000 / val 75.000 / test 75.000).
 - **Báo cáo JTE:** `Nhom_10-Nhan_Kien_Tuan.docx` — nhóm tự viết, đúng định dạng JTE (lề, TNR 11, song ngữ, IMRAD, IEEE refs, tiểu sử tác giả). Đã sửa email tiểu sử tác giả 2 → 2591310. *(Đã đổi tên từ `Bao_cao_RBA_theo_mau_JTE_chinhsua.docx`; bản AI mẫu HCMUTE đã gỡ khỏi repo.)*
-- **Slide:** `Nhom_10-Nhan_Kien_Tuan.pptx` — 18 trang, có ghi chú thuyết trình, cỡ chữ ≥16pt, đã ghi GVHD + Nhóm 10.
+- **Slide:** `Nhom_10-Nhan_Kien_Tuan.pptx` — 19 trang (có slide ablation), ghi chú thuyết trình đầy đủ, cỡ chữ ≥16pt, đã ghi GVHD + Nhóm 10.
 - **Tài liệu học/hiểu (để tự viết lại, KHÔNG copy vào báo cáo):**
   - `GiaiThich_ThuatToan_ViDu.md` — Mamdani + MLP kèm ví dụ tính tay.
   - `GiaiThich_Data_TienXuLy.md` — dữ liệu + tiền xử lý từng bước, có sơ đồ luồng + ví dụ tính tay 3 lượt đăng nhập.
@@ -25,13 +25,13 @@
 ## ⚠️ CÒN THIẾU / CẦN LÀM
 
 ### A. Báo cáo JTE — nhóm TỰ viết (không để AI viết)
-- [x] **Ablation** (mục 3.3 + Bảng 3): đã có, số liệu khớp đúng notebook (chạy 246.600 dòng). ✅
+- [x] **Ablation** (mục 3.3 + Bảng 3): đã có, số liệu khớp đúng notebook (full 500k): fuzzy cải thiện MỌI chỉ số, rõ nhất Recall +0,0144 và AUPRC +0,0100. ✅
 - [x] **Thuật toán tổng quát** (mục 2.4, pseudo-code Algorithm 1). ✅
 - [x] **Trích dẫn 5 → 8** (thêm [6] Freeman, [7] Saito, [8] Jang ANFIS). ✅
 - [x] **Điền email tác giả liên hệ** (đủ 3 email SV). ✅
 - [~] **So sánh với phương pháp khác** (mục 4.2/4.3b): đã lồng trích dẫn Wiefling/Freeman + baseline trong prose; *có thể* thêm 1 bảng đối chiếu số nếu muốn mạnh hơn.
 - [—] **Cắt tóm tắt tiếng Việt ≤250 từ**: nhóm quyết định **giữ nguyên 265 từ** (bỏ qua).
-- [x] **Đồng bộ kết quả về 246k**: Bảng 2 + abstract (EN/VI) + thảo luận + confusion + cỡ test (36.997) + slide + README + STATUS đều dùng số notebook 246k → khớp 100% với code. ✅
+- [x] **Đồng bộ kết quả về FULL 500k** (28/07, nhóm gửi notebook chạy lại toàn bộ dữ liệu): Bảng 2/3 + abstract (EN/VI) + thảo luận + confusion + cỡ test (75.000) + Hình 5 + slide + biểu đồ + outputs/ + README/STATUS/TongHop đều dùng số mới → khớp 100% với code. Kết quả: AUROC 0,877 · AUPRC 0,216 · Accuracy 0,795 · Precision 0,114 · Recall 0,843 · F1 0,201. ✅
 
 ### B. File nộp — đặt tên đúng cú pháp & tránh nhầm
 - [x] **Đổi tên báo cáo JTE** → `Nhom_10-Nhan_Kien_Tuan.docx`. ✅

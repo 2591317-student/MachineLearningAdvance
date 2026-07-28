@@ -27,15 +27,15 @@
 
 ### Tài liệu báo cáo (gốc)
 - [x] `BaoCao_CuoiKy_RBA_MLP_Fuzzy.docx` — báo cáo cuối kỳ.
-- [x] `Nhom_10-Nhan_Kien_Tuan.pptx` — **18 slide** (6 phần: bài toán →
+- [x] `Nhom_10-Nhan_Kien_Tuan.pptx` — **19 slide** (6 phần: bài toán →
   kiến trúc → Mamdani → MLP → kết quả → hạn chế).
 - [x] `BaoCao_Assets/` — 4 hình: kiến trúc tổng thể, membership functions,
   ví dụ Mamdani 4 bước (→0.839), kiến trúc MLP; + `rule_list.txt`.
 
-### Kết quả model (tập Test 36.997 dòng — mẫu con 246.600 dòng chạy trên Colab)
+### Kết quả model (tập Test 75.000 dòng — toàn bộ 500.000 dòng, chạy trên Colab)
 | AUROC | AUPRC | Accuracy | Precision | Recall | F1 |
 |---|---|---|---|---|---|
-| 0.866 | 0.223 | 0.754 | 0.099 | 0.849 | 0.177 |
+| 0.877 | 0.216 | 0.795 | 0.114 | 0.843 | 0.201 |
 
 ---
 
@@ -83,8 +83,8 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
   trong `inference.predict_risk`.
 - **Đã train lại** với dataset thật (`data/rba_sample_500k.csv`, máy có sklearn
   1.7.2): `outputs/` (model, pipeline, metrics.json, 5 biểu đồ) giờ khớp đúng
-  code mới. Kết quả chính thức (notebook 246k) AUROC 0.866, AUPRC 0.223, Recall 84.9%,
-  Precision 9.9% — leakage vốn nhẹ ở quy mô batch lớn, nhưng pipeline giờ
+  code mới. Kết quả chính thức (notebook, full 500k) AUROC 0.877, AUPRC 0.216, Recall 84.3%,
+  Precision 11.4% — leakage vốn nhẹ ở quy mô batch lớn, nhưng pipeline giờ
   đúng nguyên tắc.
 - **Đã kiểm thử:** `python inference.py` chạy được với pipeline mới (có khóa
   `global_stats`), 2 kịch bản rủi ro cao/thấp cho kết quả tách biệt hợp lý.
@@ -112,8 +112,8 @@ thích). Có thể nộp/bảo vệ được ngay. Còn 3 điểm nên xử lý 
 
 > **Trạng thái hiện tại: mọi việc đã hoàn tất.** Code, model, outputs, báo cáo
 > VÀ slide đều đã đồng bộ với nhau. Slide `Nhom_10-Nhan_Kien_Tuan.pptx`
-> đã được cập nhật đúng số liệu retrain mới nhất (AUROC 86.6%, AUPRC 22.3%,
-> Accuracy 75.4%, Precision 9.9%, Recall 84.9%, F1 17.7%) — đã kiểm tra không
+> đã được cập nhật đúng số liệu retrain mới nhất (AUROC 87.7%, AUPRC 21.6%,
+> Accuracy 79.5%, Precision 11.4%, Recall 84.3%, F1 20.1%) — đã kiểm tra không
 > còn số cũ nào sót lại.
 
 ---
@@ -126,7 +126,7 @@ MachineLearningAdvance/
 ├── TongHop_DuAn_RBA.md          # tổng quan toàn dự án (mới)
 ├── LuatMo_SoDo_RBA.md           # chi tiết hệ mờ + sơ đồ (mới)
 ├── STATUS.md                    # file này
-├── Nhom_10-Nhan_Kien_Tuan.pptx        # slide thuyết trình (18 trang)
+├── Nhom_10-Nhan_Kien_Tuan.pptx        # slide thuyết trình (19 trang)
 ├── BaoCao_Assets/               # 4 hình minh họa
 └── rba_local_project/           # source + model + outputs
 ```
