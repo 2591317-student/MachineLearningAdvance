@@ -13,7 +13,7 @@
 ---
 
 ## ✅ Đã xong
-- **Code:** `Nhom_10-Nhan_Kien_Tuan.ipynb` — notebook Colab, code chia theo từng cell + kết quả chạy; nạp kết quả chính thức 500k từ `rba_local_project/outputs/`.
+- **Code:** `Nhom_10-Nhan_Kien_Tuan.ipynb` — notebook Colab nhóm chạy thực tế (23 bước, có ablation), chia theo từng cell + kết quả chạy, 0 lỗi. *(Đã chốt 1 notebook duy nhất để nộp — thay bằng bản `RBA_MLP_(1).ipynb`, bỏ bản demo cũ.)*
 - **Báo cáo JTE:** `Nhom_10-Nhan_Kien_Tuan.docx` — nhóm tự viết, đúng định dạng JTE (lề, TNR 11, song ngữ, IMRAD, IEEE refs, tiểu sử tác giả). Đã sửa email tiểu sử tác giả 2 → 2591310. *(Đã đổi tên từ `Bao_cao_RBA_theo_mau_JTE_chinhsua.docx`; bản AI mẫu HCMUTE đã gỡ khỏi repo.)*
 - **Slide:** `Nhom_10-Nhan_Kien_Tuan.pptx` — 18 trang, có ghi chú thuyết trình, cỡ chữ ≥16pt, đã ghi GVHD + Nhóm 10.
 - **Tài liệu học/hiểu (để tự viết lại, KHÔNG copy vào báo cáo):**
