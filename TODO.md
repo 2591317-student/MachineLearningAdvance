@@ -1,7 +1,14 @@
 # VIỆC CÒN THIẾU — Nộp đồ án cuối kỳ (Nhóm 10)
 
 > Hạn nộp: **17h Chủ nhật 02/08/2026** trên **UTEXLMS**.
-> Ngày cập nhật: 2026-07-27.
+> Ngày cập nhật: 2026-07-31.
+
+## 🎯 Thứ tự ưu tiên 2 ngày cuối (chốt 2026-07-30)
+1. **Quay video báo cáo 10–15 phút** — bắt buộc, tốn thời gian nhất. **CHƯA LÀM.**
+2. **Verify link Colab/GitHub chạy được** — mở từ link, kiểm tra đủ cell + output. **CHƯA LÀM.**
+3. **Cắt tóm tắt tiếng Việt 316 → ≤250 từ** — ✅ xong (248 từ), xem mục A bên dưới.
+4. **Ablation multi-seed (5 seed, paired, sign test)** — **TẠM KHÔNG LÀM**, để đó nếu còn thời gian sau khi xong 1-2-5. Không phải việc bắt buộc, chỉ tăng độ chắc học thuật. Câu thừa nhận "ablation mới chạy 1 seed" trong mục 3.4 cũng **quyết định bỏ qua** (không thêm).
+5. **Nộp UTEXLMS** trước 17h CN 02/08/2026. **CHƯA LÀM.**
 
 ## Bối cảnh nộp bài
 - **GVHD:** TS. Phan Thị Huyền Trang.
@@ -30,8 +37,11 @@
 - [x] **Trích dẫn 5 → 8** (thêm [6] Freeman, [7] Saito, [8] Jang ANFIS). ✅
 - [x] **Điền email tác giả liên hệ** (đủ 3 email SV). ✅
 - [~] **So sánh với phương pháp khác** (mục 4.2/4.3b): đã lồng trích dẫn Wiefling/Freeman + baseline trong prose; *có thể* thêm 1 bảng đối chiếu số nếu muốn mạnh hơn.
-- [—] **Cắt tóm tắt tiếng Việt ≤250 từ**: nhóm quyết định **giữ nguyên 265 từ** (bỏ qua).
+- [x] **Cắt tóm tắt tiếng Việt 316 → 248 từ** (30/07-31/07): viết lại tự nhiên hơn (câu ngắn, bớt văn phong máy móc), giữ nguyên số liệu, không thêm claim mới. ✅
 - [x] **Đồng bộ kết quả về FULL 500k** (28/07, nhóm gửi notebook chạy lại toàn bộ dữ liệu): Bảng 2/3 + abstract (EN/VI) + thảo luận + confusion + cỡ test (75.000) + Hình 5 + slide + biểu đồ + outputs/ + README/STATUS/TongHop đều dùng số mới → khớp 100% với code. Kết quả: AUROC 0,877 · AUPRC 0,216 · Accuracy 0,795 · Precision 0,114 · Recall 0,843 · F1 0,201. ✅
+- [x] **Sửa mục 2.4 Thuật toán tổng quát** (31/07): tách caption "Thuật toán 1." ra dòng riêng (JTE Caption style); bỏ cú pháp PyTorch (Dropout/BatchNorm/ReLU/Linear lồng nhau) thay bằng ký hiệu toán khớp công thức (2) đã có (a^(l), z^(l), W^(l), b^(l)); bỏ hyperparameter cứng (lr, weight_decay, batch size, epoch) thay bằng ký hiệu η/λ/E/P; đánh số dòng 1-23; đổi "Bước A-E" → "Bước 1-5"; bỏ nền xám + font Consolas → Times New Roman 11pt khớp thân bài; đổi tên bước từ IN HOA sang Title Case (vd "Huấn Luyện" thay vì "HUẤN LUYỆN"). ✅
+- [x] **Bảng tiểu sử tác giả set width 16cm** (31/07) — theo đúng yêu cầu template "Preferred Width = 16cm, No border". ✅
+- [—] **Câu thừa nhận ablation 1-seed trong mục 3.4** — đã cân nhắc, **quyết định không thêm** (song song với việc tạm không chạy multi-seed ở mục ưu tiên #4).
 
 ### B. File nộp — đặt tên đúng cú pháp & tránh nhầm
 - [x] **Đổi tên báo cáo JTE** → `Nhom_10-Nhan_Kien_Tuan.docx`. ✅
